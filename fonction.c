@@ -78,7 +78,7 @@ void rechercherVolCompany() {
 
     while (fgets(ligne, TAILLE, fp) != NULL) {
         if (strstr(ligne, compagnie) != NULL) {
-            printf("%s\n\n", ligne);
+            printf("\n%s\n\n", ligne);
         }
     }
 
