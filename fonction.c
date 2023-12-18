@@ -148,6 +148,49 @@ void rechercherVolDestination(){
 }
 
 void rechercherVolHorraire(){
+    const char* fname = "/Users/Robi6/Downloads/data_vols.csv";
+    FILE* fp = fopen(fname, "r");
+    if (fp == NULL) {
+        perror("Impossible d'ouvrir le fichier");
+        return;
+    }
 
+    char ch[1024];
+    while (fgets(ch, taille, fp) != NULL) {
+
+        char* token = strtok(ch, ",");
+        int colonne = 1;
+
+        
+        while (token != NULL && colonne < 10) {
+            token = strtok(NULL, ",");
+            colonne++;
+        }
+
+
+        if (token != NULL) {
+
+            int value = 0;
+            int i = 0;
+            while (token[i] != '\0') {
+                if (token[i] >= '0' && token[i] <= '9') {
+                    value = value * 10 + (token[i] - '0');
+                }
+                i++;
+            }
+
+            
+            if (value >= 1000 && value <= 1700) {
+                printf("%s\n\n", ch);
+            }
+        }
+
+
+
+
+
+    }
+
+    fclose(fp);
 
 }
