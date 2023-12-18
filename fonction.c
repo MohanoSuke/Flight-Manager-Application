@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define taille 1024
 #define TAILLE 1024
 
 #include "fonction.h"
@@ -48,14 +47,12 @@ void afficherVolsJournee() {
     }
 
     char ch[1024];
-    while (fgets(ch, taille, fp) != NULL) {
+    while (fgets(ch, TAILLE, fp) != NULL) {
         printf("%s\n\n", ch);
     }
 
     fclose(fp);
 }
-
-
 
 void rechercherVolCompany() {
 
@@ -124,7 +121,30 @@ void afficherPassagersSalleEmbarquement(){
 
 void rechercherVolDestination(){
 
+    char destination[TAILLE];
+    char ligne[TAILLE];
+    printf("Entrer le nom de la de votre destination : ");
 
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
+
+    fgets(destination, TAILLE, stdin);
+    destination[strcspn(destination, "\n")] = 0;
+
+    const char* fname = "/Users/angus/Documents/C/SAE/data_vols.csv";
+    FILE* fp = fopen(fname, "r");
+    if (fp == NULL) {
+        perror("Impossible d'ouvrir le fichier");
+        return;
+    }
+
+    while (fgets(ligne, TAILLE, fp) != NULL) {
+        if (strstr(ligne, destination) != NULL) {
+            printf("\n%s\n\n", ligne);
+        }
+    }
+
+    fclose(fp);
 }
 
 void rechercherVolHorraire(){
