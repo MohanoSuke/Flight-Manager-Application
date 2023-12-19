@@ -11,11 +11,11 @@ void affichage_general(){
 
     do {
         printf("Projet GESTION'AIR \n\n");
-        printf("1. Affichage des vols de la journée \n"
+        printf("1. Affichage des vols de la journee \n"
                "2. Rechecher votre vol\n"
                "3. Afficher la liste des passagers d'une salle d'embarquement\n"
                "4. Fermer le programme\n\n"
-               "Veuillez sélectionner une option avec le numéro correspond: ");
+               "Veuillez sélectionner une option avec le numero correspond: ");
         scanf("%d", &choix);
 
         switch (choix) {
@@ -32,7 +32,7 @@ void affichage_general(){
                 printf("Fermeture du programme\n");
                 break;
             default:
-                printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
+                printf("Erreur : Option invalide. Veuillez selectionner une option valide.\n");
         }
     } while (choix < 1 || choix > 4);
 
@@ -108,7 +108,7 @@ void choix_recherche_vol(){
                 printf("Fermeture du programme\n");
                 break;
             default:
-                printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
+                printf("Erreur : Option invalide. Veuillez selectionner une option valide.\n");
         }
     } while (choix < 1 || choix > 4);
 
