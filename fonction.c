@@ -25,7 +25,7 @@ void affichage_general(){
                "2. Rechecher votre vol\n"
                "3. Afficher la liste des passagers d'une salle d'embarquement\n"
                "4. Fermer le programme\n\n"
-               "Veuillez sélectionner une option avec le numero correspond: ");
+               "Veuillez selectionner une option avec le numero correspond: ");
         scanf("%d", &choix);
 
         switch (choix) {
@@ -99,9 +99,9 @@ void choix_recherche_vol(){
         printf("\nGESTION'AIR - Recherche vol  \n\n");
         printf("1. Rechercher votre vol avec le nom de votre companie \n"
                "2. Rechercher votre vol avec votre destination \n"
-               "3. Rechercher votre vol avec votre heure de décollage\n"
+               "3. Rechercher votre vol avec votre heure de decollage\n"
                "4. Fermer le programme\n\n"
-               "Veuillez sélectionner une option avec le numéro correspond: ");
+               "Veuillez selectionner une option avec le numero correspond: ");
         scanf("%d", &choix);
 
         switch (choix) {
