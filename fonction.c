@@ -7,10 +7,20 @@
 #include "fonction.h"
 
 void affichage_general(){
+
+    struct tm heureActuelle;
+    time_t tempActuel;
+    time(&tempActuel);
+    heureActuelle = *localtime(&tempActuel);
+
+    int heure = heureActuelle.tm_hour;
+    int minute = heureActuelle.tm_min;
+
+
     int choix;
 
     do {
-        printf("Projet GESTION'AIR \n\n");
+        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
         printf("1. Affichage des vols de la journee \n"
                "2. Rechecher votre vol\n"
                "3. Afficher la liste des passagers d'une salle d'embarquement\n"
