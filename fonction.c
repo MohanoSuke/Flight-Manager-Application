@@ -148,6 +148,7 @@ void rechercherVolDestination(){
 }
 
 void rechercherVolHorraire(){
+    int heure = 1200;
     const char* fname = "/Users/Robi6/Downloads/data_vols.csv";
     FILE* fp = fopen(fname, "r");
     if (fp == NULL) {
@@ -180,7 +181,7 @@ void rechercherVolHorraire(){
             }
 
             
-            if (value >= 1000 && value <= 1700) {
+            if (value >= heure && value <= heure + 300) {
                 printf("%s\n\n", ch);
             }
         }
