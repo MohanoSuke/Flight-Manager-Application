@@ -157,7 +157,7 @@ void rechercherVolHorraire(){
     }
 
     char ch[1024];
-    while (fgets(ch, taille, fp) != NULL) {
+    while (fgets(ch, TAILLE, fp) != NULL) {
 
         char* token = strtok(ch, ",");
         int colonne = 1;
