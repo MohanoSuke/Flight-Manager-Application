@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define TAILLE 1024
 
@@ -16,19 +17,27 @@ void affichage_general(){
     int heure = heureActuelle.tm_hour;
     int minute = heureActuelle.tm_min;
 
-
-    int choix;
+    char choix[100];
+    int ok = 0;
+    long val;
 
     do {
         printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
-        printf("1. Affichage des vols de la journee \n"
+        printf("1. Affichage des vols de la journée \n"
                "2. Rechecher votre vol\n"
                "3. Afficher la liste des passagers d'une salle d'embarquement\n"
                "4. Fermer le programme\n\n"
-               "Veuillez selectionner une option avec le numero correspond: ");
-        scanf("%d", &choix);
-
-        switch (choix) {
+               "Veuillez sélectionner une option avec le numéro correspond: ");
+        fgets(choix, sizeof(choix), stdin);
+        choix[strlen(choix)-1] = '\0';
+        char *res = choix;
+        val = strtol(choix, &res, 10);
+        if(val!=0){
+            ok=1;
+        } else if(res!=choix){ // Gestion du cas "0"
+            ok=1;
+        }
+        switch (val) {
             case 1:
                 afficherVolsJournee();
                 break;
@@ -42,9 +51,9 @@ void affichage_general(){
                 printf("Fermeture du programme\n");
                 break;
             default:
-                printf("Erreur : Option invalide. Veuillez selectionner une option valide.\n");
+                printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
         }
-    } while (choix < 1 || choix > 4);
+    } while (!ok);
 
 }
 
@@ -99,9 +108,9 @@ void choix_recherche_vol(){
         printf("\nGESTION'AIR - Recherche vol  \n\n");
         printf("1. Rechercher votre vol avec le nom de votre companie \n"
                "2. Rechercher votre vol avec votre destination \n"
-               "3. Rechercher votre vol avec votre heure de decollage\n"
+               "3. Rechercher votre vol avec votre heure de décollage\n"
                "4. Fermer le programme\n\n"
-               "Veuillez selectionner une option avec le numero correspond: ");
+               "Veuillez sélectionner une option avec le numéro correspond: ");
         scanf("%d", &choix);
 
         switch (choix) {
@@ -112,13 +121,13 @@ void choix_recherche_vol(){
                 rechercherVolDestination();
                 break;
             case 3:
-                rechercherVolHorraire();
+                rechercheVol2();
                 break;
             case 4:
                 printf("Fermeture du programme\n");
                 break;
             default:
-                printf("Erreur : Option invalide. Veuillez selectionner une option valide.\n");
+                printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
         }
     } while (choix < 1 || choix > 4);
 
@@ -158,8 +167,9 @@ void rechercherVolDestination(){
 }
 
 void rechercherVolHorraire(){
+
     int heure = 1200;
-    const char* fname = "/Users/Robi6/Downloads/data_vols.csv";
+    const char* fname = "/Users/angus/Documents/C/SAE/data_vols.csv";
     FILE* fp = fopen(fname, "r");
     if (fp == NULL) {
         perror("Impossible d'ouvrir le fichier");
@@ -172,12 +182,10 @@ void rechercherVolHorraire(){
         char* token = strtok(ch, ",");
         int colonne = 1;
 
-        
         while (token != NULL && colonne < 10) {
             token = strtok(NULL, ",");
             colonne++;
         }
-
 
         if (token != NULL) {
 
@@ -190,18 +198,41 @@ void rechercherVolHorraire(){
                 i++;
             }
 
-            
             if (value >= heure && value <= heure + 300) {
                 printf("%s\n\n", ch);
             }
         }
-
-
-
-
-
     }
 
     fclose(fp);
-
 }
+
+void rechercheVol2(){
+    char ligne[TAILLE];
+    int horraire;
+
+    printf("Veuillez entrer l'heure de votre vol: ");
+    scanf("%d", &horraire);
+
+    char heureStr[6];
+    sprintf(heureStr, "%d", horraire);
+
+    const char* fname = "/Users/angus/Documents/C/SAE/data_vols.csv";
+    FILE* fp = fopen(fname, "r");
+    if (fp == NULL) {
+        perror("Impossible d'ouvrir le fichier");
+        return;
+    }
+
+    while (fgets(ligne, TAILLE, fp) != NULL) {
+        if (strstr(ligne, heureStr) != NULL) {
+            printf("\n%s\n\n", ligne);
+        }
+    }
+
+    fclose(fp);
+}
+
+
+
+
