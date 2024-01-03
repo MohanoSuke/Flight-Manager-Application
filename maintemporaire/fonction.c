@@ -22,6 +22,74 @@ void chemin_access(){
 
 void affichage_general(){
 
+    struct Vol tab[50];
+    const char* fname = "/Users/Robi6/Downloads/data_vols.csv";
+    FILE* fp = fopen(fname, "r");
+
+    if (fp == NULL) {
+        perror("Impossible d'ouvrir le fichier");
+        return 1;
+    }
+
+    int i = 0;
+    char ch[TAILLE];
+    int taille_tableau = 0;
+
+    while (fgets(ch, TAILLE, fp) != NULL) {
+        int k = 0;
+        char* token = strtok(ch, ",");
+
+        strcpy(tab[i].numero_vol, token);
+
+        while (token != NULL && k < 10) {
+            token = strtok(NULL, ",");
+
+            switch (k) {
+                case 0:
+                    strcpy(tab[i].compagnie, token);
+                    break;
+                case 1:
+                    strcpy(tab[i].destination, token);
+                    break;
+                case 2:
+                    strcpy(tab[i].numero_comptoir, token);
+                    break;
+                case 3:
+                    strcpy(tab[i].heure_debut_enregistrement, token);
+                    break;
+                case 4:
+                    strcpy(tab[i].heure_fin_enregistrement, token);
+                    break;
+                case 5:
+                    strcpy(tab[i].salle_embarquement, token);
+                    break;
+                case 6:
+                    strcpy(tab[i].heure_debut_embarquement, token);
+                    break;
+                case 7:
+                    strcpy(tab[i].heure_fin_embarquement, token);
+                    break;
+                case 8:
+                    tab[i].heure_decollage = atoi(token);
+                    break;
+                case 9:
+                    strcpy(tab[i].etat, token);
+                    break;
+                default:
+                    printf("Une valeur inattendue a été saisie.\n");
+            }
+
+            k++;
+        }
+        taille_tableau++;
+        i++;
+    }
+
+    fclose(fp);
+
+
+
+
     struct tm heureActuelle;
     time_t tempActuel;
     time(&tempActuel);
@@ -62,7 +130,7 @@ void affichage_general(){
                 afficherPassagersSalleEmbarquement();
                 break;
             case 4:
-                //reprogrammation_vol(tab, 8,taille_tableau);  il manque la taille du tableau qu on doit déclarer au préalable avec toutes les valeurs, puis demander dans la fonction quel vol doit etre reprogrammé
+                reprogrammation_vol(tab, 8,taille_tableau);
                 break;
             case 5:
                 printf("Fermeture du programme\n");
@@ -342,6 +410,7 @@ void affichage(int taille, struct Vol vol[], int heure){
 }
 
 int affichage_vol() {
+
     struct Vol tab[50];
     const char* fname = "/Users/Robi6/Downloads/data_vols.csv";
     FILE* fp = fopen(fname, "r");
@@ -488,7 +557,11 @@ void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille) {
         tab1[indice_vol_base].heure_decollage = (heure_min ) % 60 + ((heure_min) / 60) * 100;
         strcpy(tab1[indice_vol_base].etat, "A l'heure");
     }
+    affichage(taille,tab1,700);
 
 }
+
+
+
 
 
