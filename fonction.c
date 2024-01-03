@@ -7,6 +7,19 @@
 
 #include "fonction.h"
 
+
+char fichierCSV[TAILLE];
+
+struct Vol tabVols[50];
+int taille_tabVols = 0;
+
+void chemin_access(){
+    printf("Veuillez entrer le chemin du fichier CSV: ");
+    fgets(fichierCSV, TAILLE, stdin);
+    fichierCSV[strcspn(fichierCSV, "\n")] = 0;
+
+}
+
 void affichage_general(){
 
     struct tm heureActuelle;
@@ -58,25 +71,82 @@ void affichage_general(){
 }
 
 void afficherVolsJournee() {
-    const char* fname = "/Users/angus/Documents/C/SAE/data_vols.csv";
-    FILE* fp = fopen(fname, "r");
+    struct Vol tab[50];
+    FILE* fp = fopen(fichierCSV, "r");
+
     if (fp == NULL) {
         perror("Impossible d'ouvrir le fichier");
         return;
     }
 
-    char ch[1024];
-    while (fgets(ch, TAILLE, fp) != NULL) {
-        printf("%s\n\n", ch);
-    }
+    int i = 0;
+    char ch[TAILLE];
 
+    while (fgets(ch, TAILLE, fp) != NULL) {
+        int k = 0;
+        char* token = strtok(ch, ",");
+
+        strcpy(tab[i].numero_vol, token);
+
+        while (token != NULL && k < 10) {
+            token = strtok(NULL, ",");
+
+            switch (k) {
+                case 0:
+                    strcpy(tab[i].compagnie, token);
+                    break;
+                case 1:
+                    strcpy(tab[i].destination, token);
+                    break;
+                case 2:
+                    strcpy(tab[i].numero_comptoir, token);
+                    break;
+                case 3:
+                    strcpy(tab[i].heure_debut_enregistrement, token);
+                    break;
+                case 4:
+                    strcpy(tab[i].heure_fin_enregistrement, token);
+                    break;
+                case 5:
+                    strcpy(tab[i].salle_embarquement, token);
+                    break;
+                case 6:
+                    strcpy(tab[i].heure_debut_embarquement, token);
+                    break;
+                case 7:
+                    strcpy(tab[i].heure_fin_embarquement, token);
+                    break;
+                case 8:
+                    strcpy(tab[i].heure_decollage, token);
+                    break;
+                case 9:
+                    strcpy(tab[i].etat, token);
+                    break;
+                default:
+                    printf("Une valeur inattendue a été saisie.\n");
+            }
+
+            k++;
+        }
+
+        i++;
+    }
     fclose(fp);
+
+    for (int j = 0; j < i; j++) {
+        printf("\nNuméro de vol: %s, Compagnie: %s, Destination: %s, Numéro comptoir: %s, Heure début enregistrement: %s, Heure fin enregistrement: %s, Salle embarquement: %s, Heure début embarquement: %s, Heure fin embarquement: %s, Heure décollage: %s, État: %s\n\n\n",
+               tab[j].numero_vol, tab[j].compagnie, tab[j].destination, tab[j].numero_comptoir,
+               tab[j].heure_debut_enregistrement, tab[j].heure_fin_enregistrement, tab[j].salle_embarquement,
+               tab[j].heure_debut_embarquement, tab[j].heure_fin_embarquement, tab[j].heure_decollage, tab[j].etat);
+    }
+    return;
 }
 
-void rechercherVolCompany() {
+
+void rechercherVolCompany(struct Vol tab[], int taille_tab) {
 
     char compagnie[TAILLE];
-    char ligne[TAILLE];
+
     printf("Entrer le nom de la compagnie de votre vol : ");
 
     int c;
@@ -85,20 +155,11 @@ void rechercherVolCompany() {
     fgets(compagnie, TAILLE, stdin);
     compagnie[strcspn(compagnie, "\n")] = 0;
 
-    const char* fname = "/Users/angus/Documents/C/SAE/data_vols.csv";
-    FILE* fp = fopen(fname, "r");
-    if (fp == NULL) {
-        perror("Impossible d'ouvrir le fichier");
-        return;
-    }
-
-    while (fgets(ligne, TAILLE, fp) != NULL) {
-        if (strstr(ligne, compagnie) != NULL) {
-            printf("\n%s\n\n", ligne);
+    for (int j = 0; j < taille_tab; j++) {
+        if (strstr(tab[j].compagnie, compagnie) != NULL) {
+            printf("\nNuméro de vol: %s, Compagnie: %s, Destination: %s\n", tab[j].numero_vol, tab[j].compagnie, tab[j].destination);
         }
     }
-
-    fclose(fp);
 }
 
 void choix_recherche_vol(){
@@ -115,7 +176,7 @@ void choix_recherche_vol(){
 
         switch (choix) {
             case 1:
-                rechercherVolCompany();
+                rechercherVolCompany(tabVols, taille_tabVols);
                 break;
             case 2:
                 rechercherVolDestination();
@@ -150,8 +211,7 @@ void rechercherVolDestination(){
     fgets(destination, TAILLE, stdin);
     destination[strcspn(destination, "\n")] = 0;
 
-    const char* fname = "/Users/angus/Documents/C/SAE/data_vols.csv";
-    FILE* fp = fopen(fname, "r");
+    FILE* fp = fopen(fichierCSV, "r");
     if (fp == NULL) {
         perror("Impossible d'ouvrir le fichier");
         return;
@@ -169,8 +229,7 @@ void rechercherVolDestination(){
 void rechercherVolHorraire(){
 
     int heure = 1200;
-    const char* fname = "/Users/angus/Documents/C/SAE/data_vols.csv";
-    FILE* fp = fopen(fname, "r");
+    FILE* fp = fopen(fichierCSV, "r");
     if (fp == NULL) {
         perror("Impossible d'ouvrir le fichier");
         return;
@@ -217,8 +276,7 @@ void rechercheVol2(){
     char heureStr[6];
     sprintf(heureStr, "%d", horraire);
 
-    const char* fname = "/Users/angus/Documents/C/SAE/data_vols.csv";
-    FILE* fp = fopen(fname, "r");
+    FILE* fp = fopen(fichierCSV, "r");
     if (fp == NULL) {
         perror("Impossible d'ouvrir le fichier");
         return;
