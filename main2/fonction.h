@@ -35,7 +35,7 @@ struct Vol {
 void affichage_general();
 void afficherVolsJournee();
 void afficherPassagersSalleEmbarquement();
-void choix_recherche_vol();
+void choix_recherche_vol(struct Vol tab[], int taille);
 void rechercherVolHorraire();
 void rechercheVol2();
 void chemin_access();
@@ -48,6 +48,7 @@ int affichage_vol();
 void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille);
 void rechercherVolDestination(struct Vol vols[], int taille);
 void rechercherVolCompagnie(struct Vol vols[], int taille);
+void viderCache();
 
 
 
