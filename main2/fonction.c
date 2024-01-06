@@ -96,6 +96,8 @@ void affichage_general(){
     int heure = heureActuelle.tm_hour;
     int minute = heureActuelle.tm_min;
 
+    int heureFormattee = heure * 100 + minute;
+
     char choix[100];
     int ok = 0;
     long val;
@@ -139,40 +141,6 @@ void affichage_general(){
     } while (!ok);
 
 }
-
-
-void rechercherVolCompany() {
-
-    char compagnie[TAILLE];
-    char ligne[TAILLE];
-    printf("Entrer le nom de la compagnie de votre vol : ");
-
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF) { }
-
-    fgets(compagnie, TAILLE, stdin);
-    compagnie[strcspn(compagnie, "\n")] = 0;
-
-    FILE* fp = fopen(fichierCSV, "r");
-    if (fp == NULL) {
-        perror("Impossible d'ouvrir le fichier");
-        return;
-    }
-
-    while (fgets(ligne, TAILLE, fp) != NULL) {
-        if (strstr(ligne, compagnie) != NULL) {
-            printf("\n%s\n\n", ligne);
-        }
-    }
-
-    fclose(fp);
-}
-
-void viderCache() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF) { }
-}
-
 
 void choix_recherche_vol(struct Vol tab[], int taille) {
 
@@ -231,6 +199,7 @@ void rechercherVolCompagnie(struct Vol vols[], int taille) {
     compagnieRecherchee[strcspn(compagnieRecherchee, "\n")] = 0;
 
     int trouve = 0;
+    printf("| Numéro | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
     for (int i = 0; i < taille; i++) {
         if (strcmp(vols[i].compagnie, compagnieRecherchee) == 0) {
             printf("\n%s - %s - %s - %s - %s - %s - %s - %s - %s - %d - %s\n\n",
@@ -274,7 +243,7 @@ void rechercherVolDestination(struct Vol vols[], int taille) {
     }
 }
 
-void rechercherVolHorraire(){
+void rechercherVolHorraire(){ // a faire !!
 
     int heure = 1200;
     FILE* fp = fopen(fichierCSV, "r");
@@ -450,13 +419,26 @@ int affichage_vol() {
     }
 
     fclose(fp);
-
-
-
+    
     tri_selection_croissante(tab, taille_tableau);
-    affichage(taille_tableau, tab, 1000);   // la la qu'il faut mettre l'heure actuelle
+    int heureFormattee = HeureFormattee();
+    affichage(taille_tableau, tab, heureFormattee);
 
     return 0;
+}
+
+int HeureFormattee() {
+    struct tm heureActuelle;
+    time_t tempActuel;
+    time(&tempActuel);
+    heureActuelle = *localtime(&tempActuel);
+
+    int heure = heureActuelle.tm_hour;
+    int minute = heureActuelle.tm_min;
+
+    int heureFormattee = heure * 100 + minute;
+
+    return heureFormattee;
 }
 
 
