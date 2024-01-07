@@ -115,18 +115,41 @@ def liste_passager(tab):
     tri_fusion(tab,0,len(tab)-1,tab_indice)
     affichage(tab, tab_indice)
 
-
-
-
-
-
-
 liste_passagers = array([[7,88,68],[6,59,678],[45,56,679],[23,78,678],[3,55,678],[56,55,678],[78,56,68],[66,57,678],[3,88,767]])
-
-
-
-
 liste_passager(liste_passagers)
+
+
+
+
+
+def liste_passager(tab):
+    tab_indice = zeros(len(tab), int)
+    tabindice(tab_indice)
+    tri_fusion(tab, 0, len(tab) - 1, tab_indice)
+    affichage(tab, tab_indice)
+
+# tableaux de taille 10, 50, et 200 avec des nombres aléatoires
+liste_passagers_10 = array([random.randint(1, 100) for _ in range(30)]).reshape(10, 3)
+liste_passagers_50 = array([random.randint(1, 100) for _ in range(150)]).reshape(50, 3)
+liste_passagers_200 = array([random.randint(1, 100) for _ in range(600)]).reshape(200, 3)
+
+print("Liste passagers de taille 10:")
+liste_passager(liste_passagers_10)
+
+print("\nListe passagers de taille 50:")
+liste_passager(liste_passagers_50)
+
+print("\nListe passagers de taille 200:")
+liste_passager(liste_passagers_200)
+
+
+
+
+
+
+
+
+
 
 
 #-----------------------------------------------------------------------------
@@ -214,6 +237,26 @@ tab1 = array([
 
 recherche_vol(tab1,0,2,2,4)
 
+
+
+
+
+
+
+import numpy as np
+
+def liste_passager(tab):
+    tab_indice = zeros(len(tab), int)
+    tabindice(tab_indice)
+    tri_fusion(tab, 0, len(tab) - 1, tab_indice)
+    affichage(tab, tab_indice)
+
+# Générer plusieurs tableaux similaires
+for _ in range(5):
+    liste_passagers = np.array([np.random.randint(1, 600, size=6) for _ in range(10)])
+    print("Liste passagers:")
+    print(liste_passagers)
+    print("\n------------------------\n")
 
 
 
