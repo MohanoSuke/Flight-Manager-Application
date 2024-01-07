@@ -187,9 +187,7 @@ void choix_recherche_vol(struct Vol tab[], int taille) {
 
 
 
-void afficherPassagersSalleEmbarquement(){
 
-}
 
 void rechercherVolCompagnie(struct Vol vols[], int taille) {
     char compagnieRecherchee[TAILLE];
