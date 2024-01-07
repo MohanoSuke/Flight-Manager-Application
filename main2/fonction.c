@@ -77,7 +77,7 @@ void affichage_general(){
                     strcpy(tab[i].etat, token);
                     break;
                 default:
-                    printf("Une valeur inattendue a Ã©tÃ© saisie.\n");
+                    printf("Une valeur inattendue a été saisie.\n");
             }
 
             k++;
@@ -104,12 +104,12 @@ void affichage_general(){
 
     do {
         printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
-        printf("1. Affichage des vols de la journÃ©e \n"
+        printf("1. Affichage des vols de la journée \n"
                "2. Rechecher votre vol\n"
                "3. Afficher la liste des passagers d'une salle d'embarquement\n"
                "4. Reprogrammer un vol\n"
                "5. Fermer le programme\n\n"
-               "Veuillez sÃ©lectionner une option avec le numÃ©ro correspond: ");
+               "Veuillez sélectionner une option avec le numéro correspond: ");
         fgets(choix, sizeof(choix), stdin);
         choix[strlen(choix)-1] = '\0';
         char *res = choix;
@@ -136,7 +136,7 @@ void affichage_general(){
                 printf("Fermeture du programme\n");
                 break;
             default:
-                printf("Erreur : Option invalide. Veuillez sÃ©lectionner une option valide.\n");
+                printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
         }
     } while (!ok);
 
@@ -153,9 +153,9 @@ void choix_recherche_vol(struct Vol tab[], int taille) {
         printf("\nGESTION'AIR - Recherche vol  \n\n");
         printf("1. Rechercher votre vol avec le nom de votre companie \n"
                "2. Rechercher votre vol avec votre destination \n"
-               "3. Rechercher votre vol avec votre heure de dÃ©collage\n"
+               "3. Rechercher votre vol avec votre heure de décollage\n"
                "4. Fermer le programme\n\n"
-               "Veuillez sÃ©lectionner une option avec le numÃ©ro correspond: ");
+               "Veuillez sélectionner une option avec le numéro correspond: ");
         fgets(choix, sizeof(choix), stdin);
         choix[strlen(choix)-1] = '\0';
         char *res = choix;
@@ -179,7 +179,7 @@ void choix_recherche_vol(struct Vol tab[], int taille) {
                     printf("Fermeture du programme\n");
                     break;
                 default:
-                    printf("Erreur : Option invalide. Veuillez sÃ©lectionner une option valide.\n");
+                    printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
         }
     } while (!ok);
 
@@ -193,13 +193,13 @@ void afficherPassagersSalleEmbarquement(){
 
 void rechercherVolCompagnie(struct Vol vols[], int taille) {
     char compagnieRecherchee[TAILLE];
-    printf("Entrer le nom de la compagnie aÃ©rienne : ");
+    printf("Entrer le nom de la compagnie aérienne : ");
 
     fgets(compagnieRecherchee, TAILLE, stdin);
     compagnieRecherchee[strcspn(compagnieRecherchee, "\n")] = 0;
 
     int trouve = 0;
-    printf("| NumÃ©ro | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
+    printf("| Numéro | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
     for (int i = 0; i < taille; i++) {
         if (strcmp(vols[i].compagnie, compagnieRecherchee) == 0) {
             printf("\n%s - %s - %s - %s - %s - %s - %s - %s - %s - %d - %s\n\n",
@@ -213,7 +213,7 @@ void rechercherVolCompagnie(struct Vol vols[], int taille) {
     }
 
     if (!trouve) {
-        printf("Aucun vol trouvÃ© pour la compagnie '%s'.\n", compagnieRecherchee);
+        printf("Aucun vol trouvé pour la compagnie '%s'.\n", compagnieRecherchee);
     }
 }
 
@@ -238,7 +238,7 @@ void rechercherVolDestination(struct Vol vols[], int taille) {
     }
 
     if (!trouve) {
-        printf("Aucun vol trouvÃ© pour la compagnie '%s'.\n", destinationRecherchee);
+        printf("Aucun vol trouvé pour la compagnie '%s'.\n", destinationRecherchee);
 
     }
 }
@@ -409,7 +409,7 @@ int affichage_vol() {
                     strcpy(tab[i].etat, token);
                     break;
                 default:
-                    printf("Une valeur inattendue a Ã©tÃ© saisie.\n");
+                    printf("Une valeur inattendue a été saisie.\n");
             }
 
             k++;
@@ -419,7 +419,7 @@ int affichage_vol() {
     }
 
     fclose(fp);
-    
+
     tri_selection_croissante(tab, taille_tableau);
     int heureFormattee = HeureFormattee();
     affichage(taille_tableau, tab, heureFormattee);
@@ -450,10 +450,10 @@ void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille) {
 
     int retard = 0;
     if (strcmp(etat, "A l'heure")== 0){
-        printf("Le vol choisi est Ã  l'heure, il ne nÃ©cessite pas de reprogrammation\n");
+        printf("Le vol choisi est à l'heure, il ne nécessite pas de reprogrammation\n");
         return;
     }else if (strcmp(etat, "Annule")== 0){
-        printf("Le vol est annulÃ©, il n'est pas possible de le reprogrammer\n");
+        printf("Le vol est annulé, il n'est pas possible de le reprogrammer\n");
         return;
     }else{
         for (int i = 0; i< strlen(etat); i++) {
@@ -520,6 +520,136 @@ void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille) {
 }
 
 
+
+int calculerage(char* datenaissance){
+    int jour,mois,annee;
+    sscanf(datenaissance, "%d/%d/%d", &jour, &mois, &annee);
+    int age = (2024-annee);
+    printf("%s/%d\n",datenaissance,age);
+    return age;
+
+};
+
+
+
+void affichage2(struct passager tab[], int taille) {
+    for (int i = 0; i < taille; i++) {
+        printf("Passager %d :\n", i + 1);
+        printf("Nom : %s\n", tab[i].nom);
+        printf("Prénom : %s\n", tab[i].prenom);
+        printf("Date de naissance : %s\n", tab[i].date_naissance);
+        printf("Numéro de siège : %s\n", tab[i].numero_siege);
+        printf("Prix du billet : %d\n", tab[i].prix_billet);
+        printf("\n");
+    }
+}
+
+void echanger2(struct passager tab[], int i, int j) {
+    struct passager temp = tab[i];
+    tab[i] = tab[j];
+    tab[j] = temp;
+}
+
+void tri_selection2(struct passager tab[], int taille){
+    int i, j, indice_mini, age_mini,age_j;
+    for (i = 0;i< taille -1;i++){
+        indice_mini = i;
+        for (j=i+1; j< taille;j++){
+            age_mini = calculerage(tab[indice_mini].date_naissance);
+            age_j = calculerage(tab[indice_mini].date_naissance);
+
+            if ((age_j < 12 && age_mini < 12) || (age_j >= 12&& age_mini >= 12)){
+                if (tab[j].prix_billet > tab[indice_mini].prix_billet){
+
+                    indice_mini= j;
+                    printf("--------prix billet\n");
+
+                }else if(tab[j].prix_billet == tab[indice_mini].prix_billet && strcmp(tab[j].nom, tab[indice_mini].nom) < 0){
+                    indice_mini = j;
+                    printf("---------prix egal");
+
+                }
+            }else{
+                if (age_j < 12 ){
+                    indice_mini= j;
+                    printf("--------------age de j < 12");
+                }
+
+
+            }
+        }
+        printf("%d/%d\n",indice_mini,i);
+        echanger2(tab,indice_mini,i);
+    }
+
+
+}
+
+
+void afficherPassagersSalleEmbarquement(){
+    const char* fname = "/Users/Robi6/Downloads/data_vols.csv";
+    FILE *fichier = fopen(fname,"r");
+    char *numero_vol = "8";
+    int indice = 0;
+    struct passager tab[50];
+
+    if (fichier != NULL){
+        printf("feur");
+
+        char chaine[1024];
+        while (fgets(chaine,1024,fichier)!= NULL){
+
+            printf("F");
+            char *token = strtok(chaine,",");
+            printf("%s",token);
+            if (*token == *numero_vol){
+                for(int i=0;i<11;i++){
+                    token= strtok(NULL,",");
+                }
+                printf("%s",token);
+                int j=0;
+                while (token != NULL){
+                    printf("gyat");
+                    switch (j){
+                        case 0 : strcpy(tab[indice].nom, token); j++; token = strtok(NULL, ",");  break;
+                        case 1 : strcpy(tab[indice].prenom, token);j++;token = strtok(NULL, ",");   break;
+                        case 2 : strcpy(tab[indice].date_naissance, token); j++; token = strtok(NULL, ",");  break;
+                        case 3 : strcpy(tab[indice].numero_siege, token);j++;token = strtok(NULL, ";"); break;
+                        case 4 : tab[indice].prix_billet = atoi(token);j=0;token = strtok(NULL, ",");indice++;break;
+                        default : printf("probleme"); break;
+
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    printf("fin\n");
+    printf("%d",tab[indice-1].prix_billet);
+    char *chaine = tab[0].nom +1;
+    strcpy(tab[0].nom, chaine);
+    printf("%s",tab[0].nom);
+    printf("%d",indice -1);
+    affichage2(tab,indice);
+
+
+    printf("-------------------------------------");
+    /*
+    char *chainee = tab[indice-1].prix_billet - 1;
+    strcpy(tab[indice-1].prix_billet, chainee);
+    printf("%s\n",chainee);
+    printf("%s",tab[indice-1].prix_billet);
+    */
+
+    tri_selection2(tab, indice);
+    affichage2(tab,indice);
+    return 0;
+
+
+
+}
 
 
 
