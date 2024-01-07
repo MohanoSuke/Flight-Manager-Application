@@ -55,3 +55,7 @@ void echanger2(struct passager tab[], int i, int j);
 void tri_selection2(struct passager tab[], int taille);
 
 
+
+#endif //SAE_C_FINAL_FONCTION_H
+
+
