@@ -13,7 +13,7 @@ struct passager {
     char prenom[50];
     char date_naissance[100];
     char numero_siege[10];
-    char prix_billet[10];
+    int prix_billet;
 };
 
 struct Vol {
@@ -30,7 +30,7 @@ struct Vol {
     char etat[1000];    //int
 };
 
-// DÃ©clarations de nos fonctions
+// Déclarations de nos fonctions
 
 void affichage_general();
 void afficherVolsJournee();
@@ -49,13 +49,9 @@ void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille);
 void rechercherVolDestination(struct Vol vols[], int taille);
 void rechercherVolCompagnie(struct Vol vols[], int taille);
 int HeureFormattee();
+int calculerage(char* datenaissance);
+void affichage2(struct passager tab[], int taille);
+void echanger2(struct passager tab[], int i, int j);
+void tri_selection2(struct passager tab[], int taille);
 
 
-
-
-
-
-
-
-
-#endif //SAE_C_FINAL_FONCTION_H
