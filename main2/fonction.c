@@ -130,7 +130,7 @@ void affichage_general(){
                 afficherPassagersSalleEmbarquement();
                 break;
             case 4:
-                reprogrammation_vol(tab, 8,taille_tableau);
+                reprogrammation_vol(tab, taille_tableau);
                 break;
             case 5:
                 printf("Fermeture du programme\n");
@@ -407,7 +407,20 @@ int HeureFormattee() {
 }
 
 
-void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille) {
+void reprogrammation_vol(struct Vol tab1[], int taille) {
+
+
+    char numero_vol[TAILLE];
+    printf("Entrer le numero de votre vol : ");
+
+    fgets(numero_vol, TAILLE, stdin);
+    numero_vol[strcspn(numero_vol, "\n")] = 0;
+
+    int indice_vol_base = atoi(numero_vol);
+
+
+
+
     printf("%d",tab1[indice_vol_base].heure_decollage);
     char etat[1000] ;
     strcpy(etat, tab1[indice_vol_base].etat);
@@ -487,7 +500,7 @@ void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille) {
 int calculerage(const char *date_naissance) {
     int jour, mois, annee;
 
-    sscanf(date_naissance, "%d/%d/%d", &jour, &mois, &annee); //sscanf permet de séparer les char
+    sscanf(date_naissance, "%d/%d/%d", &jour, &mois, &annee); //sscanf permet de sparer les char
 
     time_t t = time(NULL); // permet d'avoir la date actuel
     struct tm tm = *localtime(&t);
@@ -551,7 +564,7 @@ void tri_selection2(struct passager tab[], int taille){
             }
         }
       // permet d'afficher avant le tri  printf("%d/%d\n",indice_mini,i);
-       // echange les valeurs  echanger2(tab,indice_mini,i);
+    echanger2(tab,indice_mini,i);
     }
 
 
@@ -630,6 +643,7 @@ void afficherPassagersSalleEmbarquement(){
 
 
 }
+
 
 
 
