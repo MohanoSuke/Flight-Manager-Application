@@ -95,16 +95,20 @@ void affichage_general(){
 
     int heure = heureActuelle.tm_hour;
     int minute = heureActuelle.tm_min;
+    int annee = heureActuelle.tm_year;
+    int month = heureActuelle.tm_mon;
+    int day = heureActuelle.tm_mday;
 
     int heureFormattee = heure * 100 + minute;
+    int anneeFormattee = annee + 1900;
 
     char choix[100];
     int ok = 0;
     long val;
 
     do {
-        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
-        printf("1. Affichage des vols de la journe \n"
+        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d %d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min, anneeFormattee );
+        printf("1. Affichage des vols de la journee \n"
                "2. Rechecher votre vol\n"
                "3. Afficher la liste des passagers d'une salle d'embarquement\n"
                "4. Reprogrammer un vol\n"
@@ -395,10 +399,15 @@ int HeureFormattee() {
 
     int heure = heureActuelle.tm_hour;
     int minute = heureActuelle.tm_min;
+    int annee = heureActuelle.tm_year;
+    int month = heureActuelle.tm_mon;
+    int day = heureActuelle.tm_mday;
 
     int heureFormattee = heure * 100 + minute;
+    int anneeFormatee = annee + 1900;
 
     return heureFormattee;
+    return anneeFormatee;
 }
 
 
@@ -494,7 +503,7 @@ int calculerage(char* datenaissance){
 
 void affichage2(struct passager tab[], int taille) {
     for (int i = 0; i < taille; i++) {
-        printf("Passager %d :\n", i + 1);
+        printf("\nPassager %d :\n", i + 1);
         printf("Nom : %s\n", tab[i].nom);
         printf("Prenom : %s\n", tab[i].prenom);
         printf("Date de naissance : %s\n", tab[i].date_naissance);
@@ -538,8 +547,8 @@ void tri_selection2(struct passager tab[], int taille){
 
             }
         }
-        printf("%d/%d\n",indice_mini,i);
-        echanger2(tab,indice_mini,i);
+      // permet d'afficher avant le tri  printf("%d/%d\n",indice_mini,i);
+       // echange les valeurs echanger2(tab,indice_mini,i);
     }
 
 
@@ -548,27 +557,36 @@ void tri_selection2(struct passager tab[], int taille){
 
 void afficherPassagersSalleEmbarquement(){
     FILE* fp = fopen(fichierCSV, "r");
-    char *numero_vol = "8";
+
+    char numero_vol[TAILLE];
+    printf("Entrer le numero de votre vol : ");
+
+    fgets(numero_vol, TAILLE, stdin);
+    numero_vol[strcspn(numero_vol, "\n")] = 0;
+
+    int numero__vol = atoi(numero_vol);
+
     int indice = 0;
     struct passager tab[50];
 
     if (fp != NULL){
-        printf("feur");
+       // printf("feur");
 
         char chaine[1024];
         while (fgets(chaine,1024,fp)!= NULL){
 
-            printf("F");
+          //  printf("F");
             char *token = strtok(chaine,",");
             printf("%s",token);
-            if (*token == *numero_vol){
+            int tok = atoi(token);
+            if (tok == numero__vol){
                 for(int i=0;i<11;i++){
                     token= strtok(NULL,",");
                 }
                 printf("%s",token);
                 int j=0;
                 while (token != NULL){
-                    printf("gyat");
+                   // printf("gyat");
                     switch (j){
                         case 0 : strcpy(tab[indice].nom, token); j++; token = strtok(NULL, ",");  break;
                         case 1 : strcpy(tab[indice].prenom, token);j++;token = strtok(NULL, ",");   break;
@@ -585,16 +603,16 @@ void afficherPassagersSalleEmbarquement(){
 
 
 
-    printf("fin\n");
-    printf("%d",tab[indice-1].prix_billet);
+   // printf("fin\n");
+    // printf("%d",tab[indice-1].prix_billet);
     char *chaine = tab[0].nom +1;
     strcpy(tab[0].nom, chaine);
-    printf("%s",tab[0].nom);
-    printf("%d",indice -1);
-    affichage2(tab,indice);
+   // printf("%s",tab[0].nom);
+   // printf("%d",indice -1);
+    // affichage2(tab,indice);
 
 
-    printf("-------------------------------------");
+   // printf("-------------------------------------");
     /*
     char *chainee = tab[indice-1].prix_billet - 1;
     strcpy(tab[indice-1].prix_billet, chainee);
