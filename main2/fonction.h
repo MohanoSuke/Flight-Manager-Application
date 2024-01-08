@@ -30,7 +30,7 @@ struct Vol {
     char etat[1000];    //int
 };
 
-// Déclarations de nos fonctions
+// Dclarations de nos fonctions
 
 void affichage_general();
 void afficherVolsJournee();
@@ -45,14 +45,14 @@ void tri_selection_croissante(struct Vol tab[], int taille);
 void affiche_ligne(struct Vol vol);
 void affichage(int taille, struct Vol vol[], int heure);
 int affichage_vol();
-void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille);
+void reprogrammation_vol(struct Vol tab1[],  int taille);
 void rechercherVolDestination(struct Vol vols[], int taille);
 void rechercherVolCompagnie(struct Vol vols[], int taille);
 int HeureFormattee();
+int calculerage(const char *date_naissance);
 void affichage2(struct passager tab[], int taille);
 void echanger2(struct passager tab[], int i, int j);
 void tri_selection2(struct passager tab[], int taille);
-int calculerage(const char *date_naissance);
 
 
 
