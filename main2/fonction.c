@@ -95,19 +95,15 @@ void affichage_general(){
 
     int heure = heureActuelle.tm_hour;
     int minute = heureActuelle.tm_min;
-    int annee = heureActuelle.tm_year;
-    int month = heureActuelle.tm_mon;
-    int day = heureActuelle.tm_mday;
 
     int heureFormattee = heure * 100 + minute;
-    int anneeFormattee = annee + 1900;
 
     char choix[100];
     int ok = 0;
     long val;
 
     do {
-        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d %d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min, anneeFormattee );
+        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d %d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
         printf("1. Affichage des vols de la journee \n"
                "2. Rechecher votre vol\n"
                "3. Afficher la liste des passagers d'une salle d'embarquement\n"
@@ -488,16 +484,22 @@ void reprogrammation_vol(struct Vol tab1[], int indice_vol_base, int taille) {
 
 }
 
+int calculerage(const char *date_naissance) {
+    int jour, mois, annee;
 
+    sscanf(date_naissance, "%d/%d/%d", &jour, &mois, &annee); //sscanf permet de séparer les char
 
-int calculerage(char* datenaissance){
-    int jour,mois,annee;
-    sscanf(datenaissance, "%d/%d/%d", &jour, &mois, &annee);
-    int age = (2024-annee);
-    printf("%s/%d\n",datenaissance,age);
+    time_t t = time(NULL); // permet d'avoir la date actuel
+    struct tm tm = *localtime(&t);
+
+    int age = tm.tm_year + 1900 - annee;
+
+    if (tm.tm_mon + 1 < mois || (tm.tm_mon + 1 == mois && tm.tm_mday < jour)) { // gestion des cas
+        age--;
+    }
+
     return age;
-
-};
+}
 
 
 
@@ -507,6 +509,7 @@ void affichage2(struct passager tab[], int taille) {
         printf("Nom : %s\n", tab[i].nom);
         printf("Prenom : %s\n", tab[i].prenom);
         printf("Date de naissance : %s\n", tab[i].date_naissance);
+        printf("Age : %d\n", calculerage(tab[i].date_naissance));
         printf("Numero de sige : %s\n", tab[i].numero_siege);
         printf("Prix du billet : %d\n", tab[i].prix_billet);
         printf("\n");
@@ -548,7 +551,7 @@ void tri_selection2(struct passager tab[], int taille){
             }
         }
       // permet d'afficher avant le tri  printf("%d/%d\n",indice_mini,i);
-       // echange les valeurs echanger2(tab,indice_mini,i);
+       // echange les valeurs  echanger2(tab,indice_mini,i);
     }
 
 
