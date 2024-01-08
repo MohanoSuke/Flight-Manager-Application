@@ -417,8 +417,8 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
     numero_vol[strcspn(numero_vol, "\n")] = 0;
 
     int indice_vol_base = atoi(numero_vol);
-
-
+    printf("feur");
+    printf("%s",tab1[indice_vol_base].numero_vol);
 
 
     printf("%d",tab1[indice_vol_base].heure_decollage);
@@ -446,7 +446,9 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
 
     int heure = tab1[indice_vol_base].heure_decollage;
     tri_selection_croissante(tab1, taille);
-    affichage(taille,tab1,700);
+    printf("feur");
+    printf("%s\n",tab1[indice_vol_base].numero_vol);
+    affichage(taille,tab1,heure);
     int indice_vol;
     int T = 1;
     for (int i=0;(i<taille && T);i++){
@@ -457,6 +459,7 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
             indice_vol_base  = i;
         }
     }
+    affichage(taille,tab1,heure);
 
     int heure_min  = (heure% 100) + (heure / 100)*60 + retard;
     int heure_de_depart_minimum = heure_min;
@@ -469,7 +472,7 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
     int vol_suivant;
     printf("Depart%d\n",(heure_min ) % 60 + ((heure_min) / 60) * 100);
     printf("%d\n",tab1[indice_vol].heure_decollage);
-    affichage(taille,tab1,700);
+
     for (; T && indice_vol < taille && cpt < 60; indice_vol++) {
         vol_suivant = tab1[indice_vol].heure_decollage;
         vol_suivant = (vol_suivant% 100) + (vol_suivant/ 100)*60;
@@ -493,7 +496,7 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
         tab1[indice_vol_base].heure_decollage = (heure_min ) % 60 + ((heure_min) / 60) * 100;
         strcpy(tab1[indice_vol_base].etat, "A l'heure");
     }
-    affichage(taille,tab1,700);
+    affichage(taille,tab1,heure);
 
 }
 
