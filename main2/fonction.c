@@ -8,12 +8,11 @@
 
 #include "fonction.h"
 
-
 char fichierCSV[TAILLE];
 
 struct Vol tabVols[NOMBRE_VOLS];
 
-int taille_tabVols = 0;
+int taille_tabVols = 192;
 
 void chemin_access(){
     printf("Veuillez entrer le chemin du fichier CSV: ");
@@ -24,7 +23,7 @@ void chemin_access(){
 
 void affichage_general(){
 
-    struct Vol tab[50];
+    struct Vol tab[taille_tabVols];
     FILE* fp = fopen(fichierCSV, "r");
 
     if (fp == NULL) {
@@ -103,7 +102,7 @@ void affichage_general(){
     long val;
 
     do {
-        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d %d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
+        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
         printf("1. Affichage des vols de la journee \n"
                "2. Rechecher votre vol\n"
                "3. Afficher la liste des passagers d'une salle d'embarquement\n"
@@ -121,7 +120,7 @@ void affichage_general(){
         }
         switch (val) {
             case 1:
-                affichage_vol();
+                affichage_vol(tab, taille_tableau);
                 break;
             case 2:
                 choix_recherche_vol(tab, taille_tableau);
@@ -197,7 +196,7 @@ void rechercherVolCompagnie(struct Vol vols[], int taille) {
     compagnieRecherchee[strcspn(compagnieRecherchee, "\n")] = 0;
 
     int trouve = 0;
-    printf("| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
+    printf("\n| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
     for (int i = 0; i < taille; i++) {
         if (strcmp(vols[i].compagnie, compagnieRecherchee) == 0) {
             printf("\n%s - %s - %s - %s - %s - %s - %s - %s - %s - %d - %s\n\n",
@@ -296,7 +295,7 @@ void tri_selection_croissante(struct Vol tab[], int taille) {
 
 
 void affiche_ligne(struct Vol vol){
-    printf("%s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %s\n",
+    printf("\n%s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %s\n",
            vol.numero_vol, vol.compagnie, vol.destination, vol.numero_comptoir,
            vol.heure_debut_enregistrement, vol.heure_fin_enregistrement,
            vol.salle_embarquement, vol.heure_debut_embarquement,
@@ -314,75 +313,12 @@ void affichage(int taille, struct Vol vol[], int heure){
 
 }
 
-int affichage_vol() {
+int affichage_vol(struct Vol tab[], int taille) {
 
-    struct Vol tab[50];
-    FILE* fp = fopen(fichierCSV, "r");
-
-    if (fp == NULL) {
-        perror("Impossible d'ouvrir le fichier");
-        return 1;
-    }
-
-    int i = 0;
-    char ch[TAILLE];
-    int taille_tableau = 0;
-
-    while (fgets(ch, TAILLE, fp) != NULL) {
-        int k = 0;
-        char* token = strtok(ch, ",");
-
-        strcpy(tab[i].numero_vol, token);
-
-        while (token != NULL && k < 10) {
-            token = strtok(NULL, ",");
-
-            switch (k) {
-                case 0:
-                    strcpy(tab[i].compagnie, token);
-                    break;
-                case 1:
-                    strcpy(tab[i].destination, token);
-                    break;
-                case 2:
-                    strcpy(tab[i].numero_comptoir, token);
-                    break;
-                case 3:
-                    strcpy(tab[i].heure_debut_enregistrement, token);
-                    break;
-                case 4:
-                    strcpy(tab[i].heure_fin_enregistrement, token);
-                    break;
-                case 5:
-                    strcpy(tab[i].salle_embarquement, token);
-                    break;
-                case 6:
-                    strcpy(tab[i].heure_debut_embarquement, token);
-                    break;
-                case 7:
-                    strcpy(tab[i].heure_fin_embarquement, token);
-                    break;
-                case 8:
-                    tab[i].heure_decollage = atoi(token);
-                    break;
-                case 9:
-                    strcpy(tab[i].etat, token);
-                    break;
-                default:
-                    printf("Une valeur inattendue a ete saisie.\n");
-            }
-
-            k++;
-        }
-        taille_tableau++;
-        i++;
-    }
-
-    fclose(fp);
-
-    tri_selection_croissante(tab, taille_tableau);
+    tri_selection_croissante(tab, taille);
     int heureFormattee = HeureFormattee();
-    affichage(taille_tableau, tab, heureFormattee);
+    printf("\n| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
+    affichage(taille, tab, heureFormattee);
 
     return 0;
 }
@@ -409,7 +345,6 @@ int HeureFormattee() {
 
 void reprogrammation_vol(struct Vol tab1[], int taille) {
 
-
     char numero_vol[TAILLE];
     printf("Entrer le numero de votre vol : ");
 
@@ -420,7 +355,6 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
     printf("feur");
     printf("%s",tab1[indice_vol_base].numero_vol);
 
-
     printf("%d",tab1[indice_vol_base].heure_decollage);
     char etat[1000] ;
     strcpy(etat, tab1[indice_vol_base].etat);
@@ -430,17 +364,16 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
     if (strcmp(etat, "A l'heure")== 0){
         printf("Le vol choisi est a l'heure, il ne necessite pas de reprogrammation\n");
         return;
-    }else if (strcmp(etat, "Annule")== 0){
+    } else if (strcmp(etat, "Annule")== 0){
         printf("Le vol est annule, il n'est pas possible de le reprogrammer\n");
         return;
-    }else{
+    } else{
         for (int i = 0; i< strlen(etat); i++) {
             if (etat[i] != '\0' && etat[i] >= '0' && etat[i] <= '9'){
 
                 retard = retard * 10 + (etat[i] - '0');
             }
         }
-
     }
 
 
