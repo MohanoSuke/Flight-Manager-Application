@@ -230,8 +230,16 @@ for _ in range(5):
 print("espace")
 
 
+from random import randint
+from numpy import zeros, array
 
+def generate_tab():
+    return array([randint(1, 700) for _ in range(11)])
 
+def tabindice(tab):
+    for i in range(len(tab)):
+        tab[i] = i
+    return tab
 
 def fusionner(tab, i_debut, i_mil, i_fin, tab_indice):
     temp = zeros(i_fin - i_debut + 1, int)
@@ -270,87 +278,54 @@ def tri_fusion(tab, i_debut, i_fin, tab_indice):
         tri_fusion(tab, i_mil + 1, i_fin, tab_indice)
         fusionner(tab, i_debut, i_mil, i_fin, tab_indice)
 
-
-
-def indice_par_dichotomie(tab,tab_indice ,val):
-    ind =-1
-    d=0
-    f=len(tab)-1
+def indice_par_dichotomie(tab, tab_indice, val):
+    ind = -1
+    d = 0
+    f = len(tab) - 1
     while d <= f and ind == -1:
-        m=(d+f)//2
-        if tab[tab_indice [m]]>= val and tab[tab_indice[m]]<= val + 300:
-            ind=m
-        else :
-            if tab[tab_indice[m]] < val :
-                d=m+1
+        m = (d + f) // 2
+        if tab[tab_indice[m]] >= val and tab[tab_indice[m]] <= val + 300:
+            ind = m
+        else:
+            if tab[tab_indice[m]] < val:
+                d = m + 1
             else:
-                f=m-1
+                f = m - 1
     return ind
-
-
-
-
 
 def affichage(tab1, tab, tab_indice):
     heure = 23
     indice = indice_par_dichotomie(tab, tab_indice, heure)
-    
-    T= False
-    while indice > 1 and not T :
-        if tab[tab_indice[indice - 1]] < heure :
-            T =True
+
+    T = False
+    while indice > 1 and not T:
+        if tab[tab_indice[indice - 1]] < heure:
+            T = True
         else:
-            indice= indice - 1
-    while tab[tab_indice[indice]] <= heure + 3000 and indice < len(tab_indice):
-        i=0
-        while  i < len(tab1):
-            print(tab1[i][tab_indice[indice]])
-            i=i+1
+            indice = indice - 1
+    while indice < len(tab_indice) and tab[tab_indice[indice]] <= heure + 3000:
+        i = 0
+        result = []
+        while i < len(tab1):
+            result.append(tab1[i][tab_indice[indice]])
+            i = i + 1
 
-
-        indice = indice + 1
+        print(result)
         print("----------------")
-
-    
-def affichage_vol(tab1):   
-
-    tab= tab1[0]
-
-    tab_indice=zeros( len(tab), int)
-
-    tabindice(tab_indice)
-    
-    tri_fusion(tab,0,len(tab)-1,tab_indice)
-    
-    affichage(tab1, tab,tab_indice)
-    
-
-    
-
-    
-    
+        indice = indice + 1
 
 
-    
-    
-    
-    
-    
-tab1=[[678,5678,78,1,2,4],
-      [678,45,4,1,2,5],
-      [2,6,8,1,2,4],
-      [0,0,0,1,2,4],
-      [678,5678,78,1,2,4],
-      [678,45,4,1,2,4],
-      [2,6,8,1,2,4],
-      [678,5678,78,1,2,4],
-      [678,45,4,1,2,4],
-      [700,1200,1700,1100,1000,1500]]
+def affichage_vol(tab1):
+    tab = tab1[0]
+    tab_indice = zeros(len(tab), int)
+    tab_indice = tabindice(tab_indice)
+    tri_fusion(tab, 0, len(tab) - 1, tab_indice)
+    affichage(tab1, tab, tab_indice)
 
-
-
-
+# Exemple d'utilisation
+tab1 = [generate_tab() for _ in range(6)]
 affichage_vol(tab1)
+
 
 
 #-----------------------------------------------------------------------------
