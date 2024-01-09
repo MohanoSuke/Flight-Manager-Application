@@ -95,8 +95,6 @@ void affichage_general(){
     int heure = heureActuelle.tm_hour;
     int minute = heureActuelle.tm_min;
 
-    int heureFormattee = heure * 100 + minute;
-
     char choix[100];
     int ok = 0;
     long val;
@@ -184,10 +182,6 @@ void choix_recherche_vol(struct Vol tab[], int taille) {
 
 }
 
-
-
-
-
 void rechercherVolCompagnie(struct Vol vols[], int taille) {
     char compagnieRecherchee[TAILLE];
     printf("Entrer le nom de la compagnie aerienne : ");
@@ -267,7 +261,6 @@ void rechercherVolHorraire(struct Vol vols[], int taille){
     }
 }
 
-
 void echanger(struct Vol tab[], int i, int j) {
     struct Vol temp = tab[i];
     tab[i] = tab[j];
@@ -293,7 +286,6 @@ void tri_selection_croissante(struct Vol tab[], int taille) {
 }
 
 
-
 void affiche_ligne(struct Vol vol){
     printf("\n%s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %s\n",
            vol.numero_vol, vol.compagnie, vol.destination, vol.numero_comptoir,
@@ -314,7 +306,6 @@ void affichage(int taille, struct Vol vol[], int heure){
 }
 
 int affichage_vol(struct Vol tab[], int taille) {
-
     tri_selection_croissante(tab, taille);
     int heureFormattee = HeureFormattee();
     printf("\n| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
@@ -332,14 +323,10 @@ int HeureFormattee() {
     int heure = heureActuelle.tm_hour;
     int minute = heureActuelle.tm_min;
     int annee = heureActuelle.tm_year;
-    int month = heureActuelle.tm_mon;
-    int day = heureActuelle.tm_mday;
 
     int heureFormattee = heure * 100 + minute;
-    int anneeFormatee = annee + 1900;
 
     return heureFormattee;
-    return anneeFormatee;
 }
 
 
@@ -351,14 +338,15 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
     fgets(numero_vol, TAILLE, stdin);
     numero_vol[strcspn(numero_vol, "\n")] = 0;
 
+    int numero__vol = atoi(numero_vol);
     int indice_vol_base = atoi(numero_vol);
-    printf("feur");
-    printf("%s",tab1[indice_vol_base].numero_vol);
+   // printf("feur");
+   // printf("%s",tab1[indice_vol_base].numero_vol);
 
-    printf("%d",tab1[indice_vol_base].heure_decollage);
+   // printf("%d",tab1[indice_vol_base].heure_decollage);
     char etat[1000] ;
     strcpy(etat, tab1[indice_vol_base].etat);
-    printf("%s\n",etat);
+   // printf("%s\n",etat);
 
     int retard = 0;
     if (strcmp(etat, "A l'heure")== 0){
@@ -367,21 +355,19 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
     } else if (strcmp(etat, "Annule")== 0){
         printf("Le vol est annule, il n'est pas possible de le reprogrammer\n");
         return;
-    } else{
-        for (int i = 0; i< strlen(etat); i++) {
+    } else {
+        for (int i = 0; i < strlen(etat); i++) {
             if (etat[i] != '\0' && etat[i] >= '0' && etat[i] <= '9'){
-
                 retard = retard * 10 + (etat[i] - '0');
             }
         }
     }
 
-
     int heure = tab1[indice_vol_base].heure_decollage;
     tri_selection_croissante(tab1, taille);
-    printf("feur");
-    printf("%s\n",tab1[indice_vol_base].numero_vol);
-    affichage(taille,tab1,heure);
+   // printf("****");
+   // printf("%s\n",tab1[indice_vol_base].numero_vol);
+   // affichage(taille,tab1,heure);
     int indice_vol;
     int T = 1;
     for (int i=0;(i<taille && T);i++){
@@ -398,25 +384,26 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
     int heure_de_depart_minimum = heure_min;
     int cpt = retard;
     T = 1;
-    printf("Debut%d\n",tab1[indice_vol_base].heure_decollage);
+   // printf("Debut%d\n",tab1[indice_vol_base].heure_decollage);
     while ( indice_vol < taille - 1 && (tab1[indice_vol].heure_decollage% 100) + (tab1[indice_vol].heure_decollage/ 100)*60 < heure_min){
         indice_vol++;
     }
     int vol_suivant;
-    printf("Depart%d\n",(heure_min ) % 60 + ((heure_min) / 60) * 100);
-    printf("%d\n",tab1[indice_vol].heure_decollage);
+    printf("\n------ Reprogramation du vol selectionne [%d] ---------\n",numero__vol);
+   // printf("Depart%d\n",(heure_min ) % 60 + ((heure_min) / 60) * 100);
+   // printf("%d\n",tab1[indice_vol].heure_decollage);
 
     for (; T && indice_vol < taille && cpt < 60; indice_vol++) {
         vol_suivant = tab1[indice_vol].heure_decollage;
         vol_suivant = (vol_suivant% 100) + (vol_suivant/ 100)*60;
-        printf("%d.....%d\n",(vol_suivant) % 60 + ((vol_suivant) / 60) * 100,indice_vol);
+     //   printf("%d.....%d\n",(vol_suivant) % 60 + ((vol_suivant) / 60) * 100,indice_vol);
         if (vol_suivant - heure_min >= 5){
 
-            printf("%d\n",(heure_min ) % 60 + ((heure_min) / 60) * 100);
-            printf("%d\n",(vol_suivant) % 60 + ((vol_suivant) / 60) * 100);
-            printf("heure_min: %d\n", heure_min);
+     //       printf("%d\n",(heure_min ) % 60 + ((heure_min) / 60) * 100);
+     //       printf("%d\n",(vol_suivant) % 60 + ((vol_suivant) / 60) * 100);
+     //       printf("heure_min: %d\n", heure_min);
             tab1[indice_vol_base].heure_decollage = (heure_min ) % 60 + ((heure_min) / 60) * 100;
-            printf("fin%d\n",tab1[indice_vol_base].heure_decollage);
+   //         printf("fin%d\n",tab1[indice_vol_base].heure_decollage);
 
             strcpy(tab1[indice_vol_base].etat, "A l'heure");
             T = 0;
@@ -430,7 +417,6 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
         strcpy(tab1[indice_vol_base].etat, "A l'heure");
     }
     affichage(taille,tab1,heure);
-
 }
 
 int calculerage(const char *date_naissance) {
@@ -449,8 +435,6 @@ int calculerage(const char *date_naissance) {
 
     return age;
 }
-
-
 
 void affichage2(struct passager tab[], int taille) {
     for (int i = 0; i < taille; i++) {
@@ -473,24 +457,22 @@ void echanger2(struct passager tab[], int i, int j) {
 
 void tri_selection2(struct passager tab[], int taille){
     int i, j, indice_mini, age_mini,age_j;
-    for (i = 0;i< taille -1;i++){
+    for (i = 0; i< taille -1 ;i++){
         indice_mini = i;
-        for (j=i+1; j< taille;j++){
+        for (j=i+1; j < taille; j++){
             age_mini = calculerage(tab[indice_mini].date_naissance);
             age_j = calculerage(tab[indice_mini].date_naissance);
 
             if ((age_j < 12 && age_mini < 12) || (age_j >= 12&& age_mini >= 12)){
                 if (tab[j].prix_billet > tab[indice_mini].prix_billet){
-
                     indice_mini= j;
                     printf("--------Prix billet\n");
 
-                }else if(tab[j].prix_billet == tab[indice_mini].prix_billet && strcmp(tab[j].nom, tab[indice_mini].nom) < 0){
+                } else if(tab[j].prix_billet == tab[indice_mini].prix_billet && strcmp(tab[j].nom, tab[indice_mini].nom) < 0){
                     indice_mini = j;
                     printf("---------Prix egal");
-
                 }
-            }else{
+            } else{
                 if (age_j < 12 ){
                     indice_mini= j;
                     printf("--------------Age de j < 12");
