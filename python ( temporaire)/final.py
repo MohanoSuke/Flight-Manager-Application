@@ -1,34 +1,42 @@
-from numpy import *
+from random import randint
+from numpy import zeros, array
+
+def generate_date_naissance():
+    jour = randint(1, 31)
+    mois = randint(1, 12)
+    annee = randint(1900, 2022)
+
+    date_naissance = array([jour, mois, annee])
+    return date_naissance
 
 def tabindice(tab):
-    """
-    entree/sortie tab : [int]
-    pré-cond : len(tab) >= 1
-    post-cond : rempli le tableau pourtoutes les cases du tableau soient égales à tab[indice]=indice
-    """
-    i=0
-    while i < len(tab):
-        tab[i]=i
-        i=i+1
+    for i in range(len(tab)):
+        tab[i] = i
     return tab
 
-
-def indice_par_dichotomie(tab,tab_indice ,val):
-    ind =-1
-    d=0
-    f=len(tab)-1
+def indice_par_dichotomie(tab, tab_indice, val):
+    ind = -1
+    d = 0
+    f = len(tab) - 1
     while d <= f and ind == -1:
-        m=(d+f)//2
-        if tab[tab_indice[m]]== val :
-            ind=m
-        else :
-            if tab[tab_indice[m]] < val :
-                d=m+1
+        m = (d + f) // 2
+        if tab[tab_indice[m]][2] == val[2]:
+            if tab[tab_indice[m]][1] == val[1]:
+                if tab[tab_indice[m]][0] == val[0]:
+                    ind = m
+                elif tab[tab_indice[m]][0] < val[0]:
+                    d = m + 1
+                else:
+                    f = m - 1
+            elif tab[tab_indice[m]][1] < val[1]:
+                d = m + 1
             else:
-                f=m-1
+                f = m - 1
+        elif tab[tab_indice[m]][2] < val[2]:
+            d = m + 1
+        else:
+            f = m - 1
     return ind
-
-
 
 def fusionner(tab, i_debut, i_mil, i_fin, tab_indice):
     temp = zeros(i_fin - i_debut + 1, int)
@@ -37,28 +45,26 @@ def fusionner(tab, i_debut, i_mil, i_fin, tab_indice):
     k = 0
 
     while i <= i_mil and j <= i_fin:
-        if (tab[tab_indice[i]][0] < 12 and tab[tab_indice[j]][0] < 12) or (tab[tab_indice[i]][0] > 12 and tab[tab_indice[j]][0] > 12):
-            if tab[tab_indice[i]][1] >  tab[tab_indice[j]][1] :
+        if tab[tab_indice[i]][2] < tab[tab_indice[j]][2]:
+            temp[k] = tab_indice[i]
+            i = i + 1
+        elif tab[tab_indice[i]][2] == tab[tab_indice[j]][2]:
+            if tab[tab_indice[i]][1] < tab[tab_indice[j]][1]:
                 temp[k] = tab_indice[i]
                 i = i + 1
-            else :
-                if tab[tab_indice[i]][1] <  tab[tab_indice[j]][1] :
+            elif tab[tab_indice[i]][1] == tab[tab_indice[j]][1]:
+                if tab[tab_indice[i]][0] < tab[tab_indice[j]][0]:
+                    temp[k] = tab_indice[i]
+                    i = i + 1
+                else:
                     temp[k] = tab_indice[j]
                     j = j + 1
-                else :
-                    if tab[tab_indice[i]][2] >  tab[tab_indice[j]][2] :
-                        temp[k] = tab_indice[j]
-                        j = j + 1
-                    else :
-                        temp[k] = tab_indice[i]
-                        i = i + 1
-        else:
-            if tab[tab_indice[i]][0] < 12 :
-                temp[k] = tab_indice[i]
-                i = i + 1
-            else :
+            else:
                 temp[k] = tab_indice[j]
                 j = j + 1
+        else:
+            temp[k] = tab_indice[j]
+            j = j + 1
         k = k + 1
 
     while i <= i_mil:
@@ -83,67 +89,26 @@ def tri_fusion(tab, i_debut, i_fin, tab_indice):
         tri_fusion(tab, i_mil + 1, i_fin, tab_indice)
         fusionner(tab, i_debut, i_mil, i_fin, tab_indice)
 
+def affichage_dates(tab, tab_indice):
+    print("Dates triées :")
+    for i in range(len(tab)):
+        print("-", i + 1, " ", tab[tab_indice[i]])
+
+# Génére des dates de naissance aléatoires
+liste_passagers = array([generate_date_naissance() for _ in range(10)])
+
+print("Dates non triées :")
+for date in liste_passagers:
+    print("-", date)
+
+# Tri des dates
+tab_indice = zeros(len(liste_passagers), int)
+tabindice(tab_indice)
+tri_fusion(liste_passagers, 0, len(liste_passagers) - 1, tab_indice)
 
 
 
-
-
-
-
-
-
-
-
-
-def affichage(tab , tab_indice):
-    print("ordre")
-    i=0
-    while i < len(tab):
-        print("-",i + 1," ",tab[tab_indice[i]])
-        i=i+1
-        print
-
-
-
-
-
-
-def liste_passager(tab):
-   
-    tab_indice=zeros( len(tab), int)
-    tabindice(tab_indice)
-    tri_fusion(tab,0,len(tab)-1,tab_indice)
-    affichage(tab, tab_indice)
-
-liste_passagers = array([[7,88,68],[6,59,678],[45,56,679],[23,78,678],[3,55,678],[56,55,678],[78,56,68],[66,57,678],[3,88,767]])
-liste_passager(liste_passagers)
-
-
-
-
-
-def liste_passager(tab):
-    tab_indice = zeros(len(tab), int)
-    tabindice(tab_indice)
-    tri_fusion(tab, 0, len(tab) - 1, tab_indice)
-    affichage(tab, tab_indice)
-
-# tableaux de taille 10, 50, et 200 avec des nombres aléatoires
-liste_passagers_10 = array([random.randint(1, 100) for _ in range(30)]).reshape(10, 3)
-liste_passagers_50 = array([random.randint(1, 100) for _ in range(150)]).reshape(50, 3)
-liste_passagers_200 = array([random.randint(1, 100) for _ in range(600)]).reshape(200, 3)
-
-print("Liste passagers de taille 10:")
-liste_passager(liste_passagers_10)
-
-print("\nListe passagers de taille 50:")
-liste_passager(liste_passagers_50)
-
-print("\nListe passagers de taille 200:")
-liste_passager(liste_passagers_200)
-
-
-
+affichage_dates(liste_passagers, tab_indice)
 
 
 
