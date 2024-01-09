@@ -444,5 +444,19 @@ def reprogrammation_vol(tab1, indice_vol_base):
     
 reprogrammation_vol(tab, 2)
 
+def generate_random_data(num_flights):
+    # Génération aléatoire des heures de départ
+    departure_times = array([randint(6, 22) * 100 + randint(0, 59) for _ in range(num_flights)])
+
+    # Génération aléatoire des retards entre -1 et 59
+    delays = array([randint(-1, 59) for _ in range(num_flights)])
+
+    return array([delays, departure_times + delays])
+
+    random_data = generate_random_data(10)
+print("Avant reprogrammation:")
+print(random_data)
+
+reprogrammation_vol(random_data, 2)
 
 
