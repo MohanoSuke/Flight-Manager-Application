@@ -319,6 +319,12 @@ void affichage_vol(struct Vol tab[], int taille) {
                 heureFormattee = HeureFormattee();
                 printf("\n| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
                 tri_selection_croissante(tab, taille);
+                heureFormattee = heureFormattee - 10;
+                if (heureFormattee % 100 >=  60){
+                    heureFormattee -= 40;
+                }
+                if (heureFormattee < 600)
+                    heureFormattee = 600;
                 affichage(taille, tab, heureFormattee);
                 ok = 1;
 
@@ -329,6 +335,12 @@ void affichage_vol(struct Vol tab[], int taille) {
                 choix[strcspn(choix, "\n")] = 0;
                 int option_m = atoi(choix);
                 tri_selection_croissante(tab, taille);
+                option_m = option_m - 10;
+                if (option_m % 100 >=  60){
+                    option_m -= 40;
+                }
+                if (option_m < 600)
+                    option_m = 600;
                 affichage(taille, tab, option_m);
                 ok = 1;
                 break;
