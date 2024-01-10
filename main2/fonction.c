@@ -307,7 +307,9 @@ void affichage_vol(struct Vol tab[], int taille) {
     int heureFormattee;
 
     do {
-        printf("Afficher les vols avec l'heure actuelle [1] - Saisir l'heure manuellement [2] : ");
+        printf("\n1. Afficher les vols avec l'heure actuelle \n"
+               "2. Saisir l'heure manuellement\n\n"
+               "Veuillez selectionner une option avec le numero correspond: ");
         fgets(option, sizeof(option), stdin);
         option[strcspn(option, "\n")] = 0;
         int option_val = atoi(option);
@@ -319,6 +321,7 @@ void affichage_vol(struct Vol tab[], int taille) {
                 tri_selection_croissante(tab, taille);
                 affichage(taille, tab, heureFormattee);
                 ok = 1;
+
                 break;
             case 2:
                 printf("\nEntrer l'horaire de vol (HHMM) : ");
@@ -328,6 +331,9 @@ void affichage_vol(struct Vol tab[], int taille) {
                 tri_selection_croissante(tab, taille);
                 affichage(taille, tab, option_m);
                 ok = 1;
+                break;
+            case 3:
+                affichage_general();
                 break;
             default:
                 printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
