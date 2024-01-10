@@ -516,6 +516,19 @@ void tri_selection2(struct passager tab[], int taille){
 
 
 void afficherPassagersSalleEmbarquement(){
+
+    struct passager *vol_array = (struct passager *)malloc(100 * sizeof(struct passager));
+
+
+    if (vol_array == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return ;
+    }
+
+
+
+
+
     FILE* fp = fopen(fichierCSV, "r");
 
     char numero_vol[TAILLE];
@@ -527,7 +540,7 @@ void afficherPassagersSalleEmbarquement(){
     int numero__vol = atoi(numero_vol);
 
     int indice = 0;
-    struct passager tab[50];
+    struct passager tab[100];
 
     if (fp != NULL){
        // printf("feur");
