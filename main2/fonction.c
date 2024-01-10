@@ -11,6 +11,7 @@ char fichierCSV[TAILLE];
 
 int taille_tabVols = 192;
 
+
 void chemin_access(){
     printf("Veuillez entrer le chemin du fichier CSV: ");
     fgets(fichierCSV, TAILLE, stdin); // Permet la saisie au clavier de l'user (char)
@@ -96,7 +97,7 @@ void affichage_general(){
         printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
         printf("1. Affichage des vols de la journee \n"
                "2. Rechecher votre vol\n"
-               "3. Afficher la liste des passagers d'une salle d'embarquement\n"
+               "3. Afficher la liste des passagers d'un vol selon l'ordre d'embarquement\n"
                "4. Reprogrammer un vol\n"
                "5. Fermer le programme\n\n"
                "Veuillez selectionner une option avec le numero correspond: ");
@@ -298,13 +299,40 @@ void affichage(int taille, struct Vol vol[], int heure){
 
 }
 
-int affichage_vol(struct Vol tab[], int taille) {
-    tri_selection_croissante(tab, taille);
-    int heureFormattee = HeureFormattee();
-    printf("\n| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
-    affichage(taille, tab, heureFormattee);
+void affichage_vol(struct Vol tab[], int taille) {
+    char option[TAILLE];
+    char choix[100];
+    int ok = 0;
+    long val;
+    int heureFormattee;
 
-    return 0;
+    do {
+        printf("Afficher les vols avec l'heure actuelle [1] - Saisir l'heure manuellement [2] : ");
+        fgets(option, sizeof(option), stdin);
+        option[strcspn(option, "\n")] = 0;
+        int option_val = atoi(option);
+
+        switch (option_val) {
+            case 1:
+                heureFormattee = HeureFormattee();
+                printf("\n| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
+                tri_selection_croissante(tab, taille);
+                affichage(taille, tab, heureFormattee);
+                ok = 1;
+                break;
+            case 2:
+                printf("\nEntrer l'horaire de vol (HHMM) : ");
+                fgets(choix, sizeof(choix), stdin);
+                choix[strcspn(choix, "\n")] = 0;
+                int option_m = atoi(choix);
+                tri_selection_croissante(tab, taille);
+                affichage(taille, tab, option_m);
+                ok = 1;
+                break;
+            default:
+                printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
+        }
+    } while (!ok);
 }
 
 int HeureFormattee() {
