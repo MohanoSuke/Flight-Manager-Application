@@ -481,7 +481,7 @@ void tri_selection2(struct passager tab[], int taille){
         indice_mini = i;
         for (j=i+1; j < taille; j++){
             age_mini = calculerage(tab[indice_mini].date_naissance);
-            age_j = calculerage(tab[indice_mini].date_naissance);
+            age_j = calculerage(tab[j].date_naissance);
 
             if ((age_j < 12 && age_mini < 12) || (age_j >= 12&& age_mini >= 12)){
                 if (tab[j].prix_billet > tab[indice_mini].prix_billet){
