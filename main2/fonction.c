@@ -4,21 +4,17 @@
 #include <time.h>
 
 #define TAILLE 1024
-#define NOMBRE_VOLS 100
 
 #include "fonction.h"
 
 char fichierCSV[TAILLE];
 
-struct Vol tabVols[NOMBRE_VOLS];
-
 int taille_tabVols = 192;
 
 void chemin_access(){
     printf("Veuillez entrer le chemin du fichier CSV: ");
-    fgets(fichierCSV, TAILLE, stdin);
-    fichierCSV[strcspn(fichierCSV, "\n")] = 0;
-
+    fgets(fichierCSV, TAILLE, stdin); // Permet la saisie au clavier de l'user (char)
+    fichierCSV[strcspn(fichierCSV, "\n")] = 0; // retire le saut de ligne
 }
 
 void affichage_general(){
@@ -91,9 +87,6 @@ void affichage_general(){
     time_t tempActuel;
     time(&tempActuel);
     heureActuelle = *localtime(&tempActuel);
-
-    int heure = heureActuelle.tm_hour;
-    int minute = heureActuelle.tm_min;
 
     char choix[100];
     int ok = 0;
@@ -322,7 +315,6 @@ int HeureFormattee() {
 
     int heure = heureActuelle.tm_hour;
     int minute = heureActuelle.tm_min;
-    int annee = heureActuelle.tm_year;
 
     int heureFormattee = heure * 100 + minute;
 
@@ -507,7 +499,7 @@ void afficherPassagersSalleEmbarquement(){
        // printf("feur");
 
         char chaine[1024];
-        while (fgets(chaine,1024,fp)!= NULL){
+        while (fgets(chaine, 1024 ,fp)!= NULL){
 
           //  printf("F");
             char *token = strtok(chaine,",");
