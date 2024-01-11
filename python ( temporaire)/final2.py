@@ -5,7 +5,7 @@ def tabindice(tab,cpt):
     """
     entree/sortie tab : [int]
     pré-cond : len(tab) >= 1
-    post-cond : rempli le tableau pourtoutes les cases du tableau soient égales à tab[indice]=indice
+    post-cond : pour tout 0 <= x < len(tab), tab[x]=x
     """
     i=0
     cpt+= 1
@@ -187,7 +187,7 @@ def tri_fusion(tab, i_debut, i_fin, tab_indice,cpt):
 
 
 
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 def affichage(tab , tab_indice,cpt):
     """ 
     entrée tab : [int]
@@ -195,7 +195,7 @@ def affichage(tab , tab_indice,cpt):
     pre-condition : len(tab_indice) = len(tab)
     post-condition : le tableau tab aura été affiché selon l'ordre de tab_indice
     """
-    print("ordre")
+    print("Ordre des passagers")
     i=0
     cpt += 1
     while i < len(tab):
@@ -223,8 +223,9 @@ def liste_passager(tab):
     cpt  = tabindice(tab_indice,cpt)
     cpt = tri_fusion(tab,0,len(tab)-1,tab_indice,cpt)
     cpt = affichage(tab, tab_indice,cpt)
+    print("nombre d'operations elementaires : ")
     print(cpt)
-    return cpt
+    #return cpt       #si on veut retourner le nombre d'operations elementaires
 
 
 
@@ -243,7 +244,7 @@ liste_passager(liste_passagers)
 
 #-----------------------------------------------------------------------------
 
-print("espace")
+print("")
 
 
 def recherche_linéaire_1(tab, indice_tab,val,cpt):
@@ -318,6 +319,7 @@ def affichage_recherche(tab,tab1,cpt):
     entrée tab1 : [int]
     post-condition : les colonnes de tab sont affichés selon le tableau d'indice tab1
     """
+    print("voici le/les résusltats de la recherche")
     i=0
     cpt += 1
     while tab1[i] != 0 and i < len(tab1):
@@ -344,22 +346,26 @@ def affichage_recherche(tab,tab1,cpt):
 
 
 
-def recherche_vol(tab,indice1,valeur1,indice2,valeur2):
+def recherche_vol(tab,indice1,valeur1,indice2,valeur2):     #mettre -1 pour indice2 si on veut qu'un seul parametre pour la recherche
     """
     entrée tab : [int]
     entrée indice1 : int
     entrée valeur1 : int
     entrée indice2 : int
     entrée valeur2 : int
-    pre-condition : 0 <= indice1  < len(tab) :  0 <= indice2  < len(tab)
+    pre-condition : 0 <= indice1  < len(tab) :  -1 <= indice2  < len(tab)
     post-condition : les resultats de la recherche seront affichés sinon rien ne sera affiché
     """
     cpt  = 0
-    #tab1,cpt = recherche_linéaire_1(tab, indice1, valeur1)
-    tab1,cpt = recherche_linéaire_2(tab, indice1, valeur1, indice2, valeur2,cpt)
+    cpt += 1
+    if indice2 == -1 :
+        tab1,cpt = recherche_linéaire_1(tab, indice1, valeur1)
+    else:
+        tab1,cpt = recherche_linéaire_2(tab, indice1, valeur1, indice2, valeur2,cpt)
     cpt =affichage_recherche(tab, tab1,cpt)
+    print("nombre d'operations elementaires : ")
     print(cpt)
-    return cpt
+    #return cpt       #si on veut retourner le nombre d'operations elementaires
     
 
     
@@ -389,7 +395,7 @@ recherche_vol(tab1,0,2,2,4)
 
 #-----------------------------------------------------------------------------
 
-print("espace")
+print("")
 
 
 
@@ -492,18 +498,15 @@ def indice_par_dichotomie_vol(tab,tab_indice ,heure,cpt):
 
 
 
-def affichagevol(tab1, tab, tab_indice,cpt):
-    """
+def affichagevol(tab1, tab, tab_indice,heure,cpt):
+    """x    
     entrée tab1 : [int]
     entrée tab : [int]
     entrée tab_indice : [int]
     pre-condition : len(tab1) >= 1 ; len(tab) = len(tab_indice)
     post-condition : affiche les vols de tab1 compris entre heure et heure + 3 heures dans l'ordre croissant 
                     en fonction des valeurs de tab_indice qui contient les indices de tab dans l'ordre croissant.
-    """
-    #!!!!!!!!!
-    heure = 1200             #mettre l'heure en paramètre
-    #!!!!!!!!!!!
+    """            
     indice , cpt = indice_par_dichotomie_vol(tab,tab_indice,heure,cpt)
     T= False
     cpt += 1
@@ -535,7 +538,6 @@ def affichagevol(tab1, tab, tab_indice,cpt):
         cpt += 1
         print("---------autre--vol")
     cpt += 6
-    print("---------fin--vol")
     return cpt
         
 
@@ -543,14 +545,29 @@ def affichagevol(tab1, tab, tab_indice,cpt):
 
 
 
-def affichage_vol(tab1):   
+def affichage_vol(tab1,heure):   
     """
-    entrée : [int]
+    entrée tab1 : [int]
+    entrée heure : int
     pre-cond : len(tab) >= 1
     post-condition : affiche les vols de tab compris entre heure et heure + 3 heures dans l'ordre croissant
                      en focntion de leur heure de decollage qui est stocké dans tab1[0]
     """
+    print("voici les vols corresponsant à cette horaire : ",heure)
+    
     cpt = 0
+
+    heure = heure - 10
+    cpt += 2
+    cpt += 2
+    if heure % 100 >= 60:
+        heure = heure -40
+        cpt += 2
+    cpt += 1
+    if heure < 600:
+        heure = 600
+        cpt += 1
+    
     tab= tab1[0]
 
     tab_indice=zeros( len(tab), int)
@@ -558,10 +575,10 @@ def affichage_vol(tab1):
     cpt = tabindice(tab_indice,cpt)
     
     cpt =tri_fusion(tab,0,len(tab)-1,tab_indice,cpt)
-    
-    cpt = affichagevol(tab1, tab,tab_indice,cpt)
+    cpt = affichagevol(tab1, tab,tab_indice,heure,cpt)
+    print("nombre d'operations elementaires : ")
     print(cpt)
-    return cpt
+    #return cpt       #si on veut retourner le nombre d'operations elementaires
     
 
     
@@ -589,12 +606,12 @@ tab1=[[678,1356,78,1200,2,4],
 
 
 
-affichage_vol(tab1)
+affichage_vol(tab1, 1210)  #on rentre l'heure ici
 
 
 #-----------------------------------------------------------------------------
 
-print("espace")
+print("")
 
 
 
@@ -616,6 +633,7 @@ def reprogrammation_vol(tab1, indice_vol_base):
     post-condition : le vol choisi est reporgammé si il possède du retard, son horaire de decollage et son état sont chnagés 
                      si le vol ne s'annule pas en cours de reprogrammation, sinon rien ne se passe; 
     """
+    print("avant la reprogrammation")
     print(tab1)
     cpt = 0
     tab=tab1[1]
@@ -624,22 +642,20 @@ def reprogrammation_vol(tab1, indice_vol_base):
     cpt += len(tab)
 
     cpt =tabindice(tab_indice,cpt)
-    cpt =tri_fusion(tab,0,len(tab)-1,tab_indice,cpt)
+    cpt =tri_fusion(tab,0,len(tab)-1,tab_indice,cpt)   #trie les vols par heure de decollage
     heure= tab[indice_vol_base]
     compteur = tab1[0][indice_vol_base]
     cpt += 4
 
     cpt += 3
-    print(compteur)
     if compteur == -1 or compteur == 0:
         
-
-        print(cpt)
+        print(cpt)  
+        #return cpt
 
     else :
 
-        print("feru")
-        indice_vol, cpt= indice_par_dichotomie(tab, tab_indice, heure,cpt)
+        indice_vol, cpt= indice_par_dichotomie(tab, tab_indice, heure,cpt)        
         i=indice_vol
         heure_min  = (heure% 100) + (heure // 100)*60 + tab1[0][indice_vol_base]
         heure_de_depart_minimum = heure_min
@@ -657,7 +673,7 @@ def reprogrammation_vol(tab1, indice_vol_base):
         cpt += 9
 
         
-        while indice_vol > 0 and vol_precedent <= heure_min - 5:
+        while indice_vol > 0 and vol_precedent <= heure_min - 5:    #regarder au cas par cas si heure de decollage[i + 1] - heure_de_decollage[i] > 5;
             cpt += 5
             indice_vol= indice_vol -1
             vol_precedent = (tab[tab_indice[indice_vol ]] // 100 )*60 + (tab[tab_indice[indice_vol]] %100)
@@ -678,7 +694,7 @@ def reprogrammation_vol(tab1, indice_vol_base):
 
         while not T and indice_vol < len(tab_indice)- 1 and compteur < 60:
             cpt += 6
-            vol_suivant = (tab[tab_indice[indice_vol ]] // 100 )*60 + (tab[tab_indice[indice_vol ]] %100)
+            vol_suivant = (tab[tab_indice[indice_vol ]] // 100 )*60 + (tab[tab_indice[indice_vol ]] %100) 
             cpt += 9
             cpt += 2
             if vol_suivant - heure_min >= 5:
@@ -696,132 +712,34 @@ def reprogrammation_vol(tab1, indice_vol_base):
         cpt += 6
 
         cpt += 1
-        if compteur >= 60 :
+        if compteur >= 60 :      #si retard > 60
             tab1[0][indice_vol_base] = -1
             cpt += 2
         cpt += 8
-        if indice_vol < len(tab_indice)- 1 and (22*60 - heure_min) > 1 and not T:
+        if indice_vol == len(tab_indice)- 1 and (22*60 - heure_min) >= 0 and not T:  #si on arrive au dernier vol de la journée, on compare l'écart entre heure_min et 22h
             tab1[1][indice_vol_base] = (heure_min )%60 + ((heure_min )// 60)* 100
             tab1[0][indice_vol_base] = 0
-            cpt +=8
+            T = True
+            cpt +=9
+        cpt += 8
+        if indice_vol == len(tab_indice)- 1 and (22*60 - heure_min) < 0 and not T: #si pas reprogrammé alors le vol est annulé car on arrive a la fin de la journée, heure_min > 22h
+            tab1[0][indice_vol_base] = -1
+            cpt += 2
         print(cpt)
 
-
+    print("après la reprogrammation")
     print(tab1)
-    return cpt
+    print("nombre d'operations elementaires : ")
+    print(cpt)
+    #return cpt       #si on veut retourner le nombre d'operations elementaires
 
-    #trie les vols par heure de decollage
-    #regarder au cas par cas si heure de decollage[i + 1] - heure_de_decollage[i] > 5;
-
-    #si retard > 60 ou heure de decollage + retard > 2200 
-    #alors le vol est annulé: la valeur du retard = -1
     
 reprogrammation_vol(tab, 2)
 
 
 
-
-def reprogrammation_vol_rapide(tab1, indice_vol_base):
-    """
-    entrée tab1 : [int]
-    entrée indice_vol_base : int
-    pre-condition : len(tab1) >= 1 ;len(tab1[0]) >= 1 ; 0 <= indice_vol_base < len(tab1[0])
-    post-condition : le vol choisi est reporgammé si il possède du retard, son horaire de decollage et son état sont chnagés 
-                     si le vol ne s'annule pas en cours de reprogrammation, sinon rien ne se passe; 
-    """
-    print(tab1)
-    cpt = 0
-    tab=tab1[1]
-    cpt += 2
-    tab_indice=zeros( len(tab), int)
-    cpt += len(tab)
-
-    cpt =tabindice(tab_indice,cpt)
-    cpt =tri_fusion(tab,0,len(tab)-1,tab_indice,cpt)
-    heure= tab[indice_vol_base]
-    compteur = tab1[0][indice_vol_base]
-    cpt += 4
-
-    cpt += 3
-    print(compteur)
-    if compteur == -1 or compteur == 0:
-        
-
-        return cpt
-
-    else :
-        print("feru")
-        indice_vol, cpt= indice_par_dichotomie(tab, tab_indice, heure,cpt)
-        
-        heure_min  = (heure% 100) + (heure // 100)*60 + compteur
-        heure_de_depart_minimum = heure_min
-        if indice_vol != len(tab[0]):
-            indice_vol = indice_vol +1
-
-
-        x= tab1[1][indice_vol] 
-        heure_avant = x%100 + (x//100)*60
-        while heure_avant < heure_min - 5 and indice_vol < len(tab_indice) -1:
-            indice_vol = indice_vol +1
-            x= tab1[1][indice_vol] 
-            heure_avant = x%100 + (x//100)*60
-        T = False   
-
-
-        while heure_avant == heure_min and indice_vol < len(tab_indice) -1 and compteur <60:
-            heure_min = heure_min +5
-            indice_vol = indice_vol +1
-            x= tab1[1][indice_vol] 
-            heure_avant = x%100 + (x//100)*60
-            compteur = compteur + 5
-
-        tab
-        
-
-
-        while T and indice_vol < len(tab_indice) -1 and heure_min < 22*60:
-            
-            
-
-            cpt += 6
-            vol_suivant = (tab[tab_indice[indice_vol + 1]] // 100 )*60 + (tab[tab_indice[indice_vol + 1]] %100)
-            cpt += 11
-            cpt += 2
-            if vol_suivant - heure_min >= 5:
-                
-                
-                tab1[1][indice_vol_base] = (heure_min )%60 + ((heure_min )// 60)* 100
-                tab1[0][indice_vol_base] = 0
-                T= True
-                cpt += 9
-            else:
-                heure_min = vol_suivant + 5
-                compteur  = heure_min - heure_de_depart_minimum
-                indice_vol = indice_vol + 1
-                cpt += 6
-        cpt += 6
-
-        cpt += 1
-        if compteur >= 60 :
-            tab1[0][indice_vol_base] = -1
-            cpt += 2
-        cpt += 8
-        if indice_vol == len(tab_indice)- 1 and (22*60 - heure_min) > 1 and not T:
-            tab1[1][indice_vol_base] = (heure_min )%60 + ((heure_min )// 60)* 100
-            tab1[0][indice_vol_base] = 0
-            cpt +=8
-        return cpt
-
-
-    
-    print(tab1)
-    #trie les vols par heure de decollage
-    #regarder au cas par cas si heure de decollage[i + 1] - heure_de_decollage[i] > 5;
-
-    #si retard > 60 ou heure de decollage + retard > 2200 
-    #alors le vol est annulé: la valeur du retard = -1
-    
-
+# c'est les algos de générations qu'on a utilisé pour dénombre le nombre d'opérations élémentaire de nos algos selon la taille(10,50,200)
+"""
 
 def generate_date_naissance():
     jour = randint(1, 31)
@@ -835,7 +753,7 @@ def passager():
     x = [generate_date_naissance(), randint(1, 100), randint(1, 100)]
     return x
 
-""""
+
 #affichage_ordre_passagers
 cpt = 0
 for i in range(10):
@@ -845,9 +763,9 @@ for i in range(10):
 print("affiche_vol_10",cpt/10)
 #print(array_of_passagers)
 
-"""
 
-""""
+
+
 #----------------
 cpt = 0
 #RECHERCHE VOL
@@ -858,7 +776,7 @@ for i in range(10):
     print("\n------------------------\n")
     cpt += recherche_vol(liste_vols_recherche,random.randint(0, 10),random.randint(1, 600),random.randint(0, 10),random.randint(1, 600))
 print(cpt/10)
-"""
+
 
 #------------------------
 def generate_hour():
@@ -866,7 +784,7 @@ def generate_hour():
     minute = random.randint(0, 59)
     return hour * 100 + minute
 
-"""
+
 #AFFICHAGE_VOL
 cpt =0
 for i in range(10):
@@ -875,7 +793,7 @@ for i in range(10):
     cpt += affichage_vol(liste_vols_aff)
 print(cpt/10)
 
-"""
+
 def generate_etat():
     x = random.randint(-1, 59)
     return x
@@ -893,3 +811,4 @@ for i in range(10):
     print("\n------------------------\n")
 print(cpt/10)
 
+"""
