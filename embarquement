@@ -1,5 +1,4 @@
 
-
 void emabarquement(struct Vol tab1[], int taille){
     //heure_actuelle :
     int heure = HeureFormattee();
@@ -34,6 +33,7 @@ void emabarquement(struct Vol tab1[], int taille){
 
 
 }
+
 
 
 
@@ -113,3 +113,9 @@ void afficherPassagersNUMVOL( int numero_vol){
 
 
 }
+
+
+
+
+
+
