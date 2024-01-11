@@ -102,7 +102,8 @@ void affichage_general(){
             "2. Recherche de votre vol\n"
             "3. Afficher la liste des passagers d'un vol selon l'ordre d'embarquement\n"
             "4. Reprogrammer un vol\n"
-            "5. Afficher l'ordre des passgers pour l'embarquement et l'enregistrement");
+            "5. AFFicher les passgers des salles d'embarquement et des enregistrements\n");
+
 
         // Utilise les codes ANSI pour imprimer la ligne en rouge
         printf("\033[1;31m5. Fermer le programme\n\n\033[0m");
@@ -124,10 +125,7 @@ void affichage_general(){
                 choix_recherche_vol(tab, taille_tableau);
                 break;
             case 3:
-                //afficherPassagersSalleEmbarquement();
-                embarquement(tab, taille_tableau);
-                printf("------------------------");
-                enregistrement(tab, taille_tableau);
+                afficherPassagersSalleEmbarquement();
                 break;
             case 4:
                 reprogrammation_vol(tab, taille_tableau);
@@ -136,10 +134,10 @@ void affichage_general(){
                 embarquement(tab, taille_tableau);
                 printf("------------------------");
                 enregistrement(tab, taille_tableau);
+                break;
             case 6:
                 printf("Fermeture du programme\n");
                 break;
-
             default:
                 printf("Erreur : Option invalide. Veuillez selectionner une option valide.\n");
         }
