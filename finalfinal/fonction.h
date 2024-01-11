@@ -53,9 +53,9 @@ int calculerage(const char *date_naissance);
 void affichage2(struct passager tab[], int taille);
 void echanger2(struct passager tab[], int i, int j);
 void tri_selection2(struct passager tab[], int taille);
-
-
-
+void afficherPassagersNUMVOL( int numero_vol);
+void embarquement(struct Vol tab1[], int taille);
+void enregistrement(struct Vol tab1[], int taille);
 #endif //SAE_C_FINAL_FONCTION_H
 
 
