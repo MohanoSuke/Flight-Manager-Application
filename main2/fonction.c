@@ -95,14 +95,17 @@ void affichage_general(){
 
     do {
         printf("\033[1;34m"); // Texte en bleu
-        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
-        printf("\033[0m"); // Retablir la couleur par dfaut
+        printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min);
+        printf("\033[0m"); // Rétablir la couleur par défaut
+
         printf("1. Affichage des vols de la journee\n"
-                "2. Recherche de votre vol\n"
-                "3. Afficher la liste des passagers d'un vol selon l'ordre d'embarquement\n"
-                "4. Reprogrammer un vol\n"
-                "5. Fermer le programme\n\n"
-                "Veuillez selectionner une option avec le numero correspondant : ");
+            "2. Recherche de votre vol\n"
+            "3. Afficher la liste des passagers d'un vol selon l'ordre d'embarquement\n"
+            "4. Reprogrammer un vol\n");
+
+        // Utilise les codes ANSI pour imprimer la ligne en rouge
+        printf("\033[1;31m5. Fermer le programme\n\n\033[0m");
+        printf("Veuillez selectionner une option avec le numero correspondant : ");
         fgets(choix, sizeof(choix), stdin);
         choix[strlen(choix)-1] = '\0';
         char *res = choix;
@@ -149,9 +152,9 @@ void choix_recherche_vol(struct Vol tab[], int taille) {
         printf("1. Rechercher votre vol avec le nom de votre compagnie \n"
                "2. Rechercher votre vol avec votre destination \n"
                "3. Rechercher votre vol avec votre heure de decollage\n"
-               "4. Rechercher votre vol avec une recherche avancée\n"
-               "5. Fermer le programme\n\n"
-               "Veuillez selectionner une option avec le numero correspond: ");
+               "4. Rechercher votre vol avec une recherche avancée\n");
+        printf("\033[1;31m5. Fermer le programme\n\n\033[0m");
+        printf("Veuillez selectionner une option avec le numero correspond: ");
         fgets(choix, sizeof(choix), stdin);
         choix[strlen(choix)-1] = '\0';
         char *res = choix;
