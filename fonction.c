@@ -11,7 +11,6 @@ char fichierCSV[TAILLE];
 
 int taille_tabVols = 192;
 
-
 void chemin_access(){
     printf("Veuillez entrer le chemin du fichier CSV: ");
     fgets(fichierCSV, TAILLE, stdin); // Permet la saisie au clavier de l'user (char)
@@ -101,10 +100,9 @@ void affichage_general(){
         printf("1. Affichage des vols de la journee\n"
             "2. Recherche de votre vol\n"
             "3. Afficher la liste des passagers d'un vol selon l'ordre d'embarquement\n"
-            "4. Reprogrammer un vol\n");
-
-        // Utilise les codes ANSI pour imprimer la ligne en rouge
-        printf("\033[1;31m5. Fermer le programme\n\n\033[0m");
+            "4. Reprogrammer un vol\n"
+            "5. Afficher les passagers des salles d'embarquement et des enregistrements\n");
+        printf("\033[1;31m6. Fermer le programme\n\n\033[0m");
         printf("Veuillez selectionner une option avec le numero correspondant : ");
         fgets(choix, sizeof(choix), stdin);
         choix[strlen(choix)-1] = '\0';
@@ -129,6 +127,11 @@ void affichage_general(){
                 reprogrammation_vol(tab, taille_tableau);
                 break;
             case 5:
+                embarquement(tab, taille_tableau);
+                printf("\n------------------------\n");
+                enregistrement(tab, taille_tableau);
+                break;
+            case 6:
                 printf("Fermeture du programme\n");
                 break;
             default:
@@ -152,7 +155,7 @@ void choix_recherche_vol(struct Vol tab[], int taille) {
         printf("1. Rechercher votre vol avec le nom de votre compagnie \n"
                "2. Rechercher votre vol avec votre destination \n"
                "3. Rechercher votre vol avec votre heure de decollage\n"
-               "4. Rechercher votre vol avec une recherche avancée\n");
+               "4. Rechercher votre vol avec une recherche avancee\n");
         printf("\033[1;31m5. Fermer le programme\n\n\033[0m");
         printf("Veuillez selectionner une option avec le numero correspond: ");
         fgets(choix, sizeof(choix), stdin);
@@ -372,7 +375,7 @@ void affichage(int taille, struct Vol vol[], int heure){
     printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
     printf("| Numero | Compagnie       | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol           |\n");
     printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("\033[0m"); // R�tablir la couleur par d�faut
+    printf("\033[0m"); // Retablir la couleur par d�faut
 
     for (int j = 1; j < taille; j++) {
         if (vol[j].heure_decollage >= heure && vol[j].heure_decollage <= (heure + 300)){
@@ -393,6 +396,13 @@ void affichage_vol(struct Vol tab[], int taille) {
         printf("Veuillez selectionner une option avec le numero correspondant: ");
         fgets(option, sizeof(option), stdin);
         option[strcspn(option, "\n")] = 0;
+        char *res = choix;
+        val = strtol(choix, &res, 10);
+        if(val!=0){
+            ok=1;
+        } else if(res!=choix){ // Gestion du cas "0"
+            ok=1;
+        }
         int option_val = atoi(option);
 
         switch (option_val) {
@@ -413,6 +423,13 @@ void affichage_vol(struct Vol tab[], int taille) {
                 printf("\nEntrer l'horaire de vol (HHMM) : ");
                 fgets(choix, sizeof(choix), stdin);
                 choix[strcspn(choix, "\n")] = 0;
+                char *res = choix;
+                val = strtol(choix, &res, 10);
+                if(val!=0){
+                    ok=1;
+                } else if(res!=choix){ // Gestion du cas "0"
+                    ok=1;
+                }
                 int option_m = atoi(choix);
                 tri_selection_croissante(tab, taille);
                 option_m = option_m - 10;
@@ -424,7 +441,6 @@ void affichage_vol(struct Vol tab[], int taille) {
                 affichage(taille, tab, option_m);
                 ok = 1;
                 break;
-
             case 3:
                 affichage_general();
                 break;
@@ -451,17 +467,25 @@ int HeureFormattee() {
 
 void reprogrammation_vol(struct Vol tab1[], int taille) {
 
+    char choix[100];
+    int ok = 0;
+    long val;
+
     char numero_vol[TAILLE];
     printf("Entrer le numero de votre vol : ");
 
     fgets(numero_vol, TAILLE, stdin);
     numero_vol[strcspn(numero_vol, "\n")] = 0;
-
+    char *res = choix;
+    val = strtol(choix, &res, 10);
+    if(val!=0){
+        ok=1;
+    } else if(res!=choix){ // Gestion du cas "0"
+        ok=1;
+    }
     int numero__vol = atoi(numero_vol);
     int indice_vol_base = atoi(numero_vol);
-   // printf("feur");
    // printf("%s",tab1[indice_vol_base].numero_vol);
-
    // printf("%d",tab1[indice_vol_base].heure_decollage);
     char etat[1000] ;
     strcpy(etat, tab1[indice_vol_base].etat);
@@ -484,7 +508,6 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
 
     int heure = tab1[indice_vol_base].heure_decollage;
     tri_selection_croissante(tab1, taille);
-   // printf("****");
    // printf("%s\n",tab1[indice_vol_base].numero_vol);
    // affichage(taille,tab1,heure);
     int indice_vol;
@@ -511,7 +534,7 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
 
     printf("\033[1;32m"); // Texte en vert
     printf("\n|----------------------------------------------- Reprogramation du vol selectionne [%d] ------------------------------------------------|\n",numero__vol);
-    printf("\033[0m"); // R�tablir la couleur par d�faut
+    printf("\033[0m"); // Retablir la couleur par defaut
    // printf("Depart%d\n",(heure_min ) % 60 + ((heure_min) / 60) * 100);
    // printf("%d\n",tab1[indice_vol].heure_decollage);
 
@@ -616,27 +639,34 @@ void tri_selection2(struct passager tab[], int taille){
 void afficherPassagersSalleEmbarquement(){
     FILE* fp = fopen(fichierCSV, "r");
 
+    char choix[100];
+    int ok = 0;
+    long val;
+
     char numero_vol[TAILLE];
     printf("Entrer le numero de votre vol : ");
-
     fgets(numero_vol, TAILLE, stdin);
     numero_vol[strcspn(numero_vol, "\n")] = 0;
-   int numero__vol = atoi(numero_vol);
+	char *res = choix;
+    val = strtol(choix, &res, 10);
+    if(val!=0){
+        ok=1;
+    } else if(res!=choix){ // Gestion du cas "0"
+        ok=1;
+    }
+    int numero__vol = atoi(numero_vol);
 
     int indice = 0;
+    int vol_trouve = 0;
     struct passager tab[50];
 
     if (fp != NULL){
-       // printf("feur");
-
         char chaine[1024];
         while (fgets(chaine, 1024 ,fp)!= NULL){
-
-          //  printf("F");
             char *token = strtok(chaine,",");
-            printf("%s",token);
             int tok = atoi(token);
             if (tok == numero__vol){
+                vol_trouve = 1;
                 for(int i=0;i<11;i++){
                     token= strtok(NULL,",");
                 }
@@ -658,7 +688,145 @@ void afficherPassagersSalleEmbarquement(){
         }
     }
 
+   // printf("fin\n");
+    // printf("%d",tab[indice-1].prix_billet);
+    char *chaine = tab[0].nom +1;
+    strcpy(tab[0].nom, chaine);
+   // printf("%s",tab[0].nom);
+   // printf("%d",indice -1);
+    // affichage2(tab,indice);
+   // printf("-------------------------------------");
+    /*
+    char *chainee = tab[indice-1].prix_billet - 1;
+    strcpy(tab[indice-1].prix_billet, chainee);
+    printf("%s\n",chainee);
+    printf("%s",tab[indice-1].prix_billet);
+    */
+    if (vol_trouve) {
+        tri_selection2(tab, indice);
+        affichage2(tab,indice);
+    } else {
+        printf("Aucun vol trouve pour charger les passagers de la salle d'embarquement\n");
+    }
 
+    fclose(fp);
+    return;
+}
+
+
+
+void embarquement(struct Vol tab1[], int taille){
+    //heure_actuelle :
+    int heure = HeureFormattee();
+    int heureD, heureF;
+    int heure_deb;
+    int heure_fin;
+
+    heureD = heure -10;
+    if ((heureD%100)>= 60){
+        heureD = heureD -40;
+    }
+    if (heureD < 600){
+        heureD = 600;
+    }
+
+    heureF = heure + 30;
+    if ((heureF%100)>= 60){
+        heureF += 40;
+    }
+    if ((heureF)>= 2200){
+            heureF = 2200;
+
+    }
+    for (int i=0;i<taille;i++){
+        heure_deb =  atoi(tab1[i].heure_debut_embarquement);
+        if ((heureD <= heure_deb) && (heureF >= heure_deb)){
+            printf("Salle d'embarquement : %s\n",tab1[i].salle_embarquement);
+            printf("Numero de vol : %s\n",tab1[i].numero_vol);
+            int numero_vol =atoi(tab1[i].numero_vol);
+            afficherPassagersNUMVOL(numero_vol);
+        }
+    }
+
+
+}
+
+
+void enregistrement(struct Vol tab1[], int taille){
+    //heure_actuelle :
+    int heure = HeureFormattee();
+    int heureD, heureF;
+    int heure_deb;
+    int heure_fin;
+
+    heureD = heure -30;
+    if ((heureD%100)>= 60){
+        heureD -= 40;
+    }
+    if (heureD < 600){
+        heureD = 600;
+    }
+
+    heureF = heure + 10;
+    if ((heureF%100)>= 60){
+        heureF += 40;
+    }
+    if ((heureF)>= 2200){
+            heureF = 2200;
+
+    }
+    for (int i=0;i<taille;i++){
+        heure_deb =  atoi(tab1[i].heure_debut_enregistrement);
+        if ((heureD <= heure_deb) && (heureF >= heure_deb)){
+            printf("Numero de comptoir : %s\n",tab1[i].numero_comptoir);
+            printf("Numero de vol : %s\n",tab1[i].numero_vol);
+            int numero_vol =atoi(tab1[i].numero_vol);
+            afficherPassagersNUMVOL(numero_vol);
+        }
+    }
+
+
+}
+
+void afficherPassagersNUMVOL( int numero_vol){
+    struct passager *vol_array = (struct passager *)malloc(100 * sizeof(struct passager));
+
+
+    if (vol_array == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return ;
+    }
+    FILE* fp = fopen(fichierCSV, "r");
+
+    int indice = 0;
+    struct passager tab[100];
+
+    if (fp != NULL){
+        char chaine[1024];
+        while (fgets(chaine, 1024 ,fp)!= NULL){
+
+            char *token = strtok(chaine,",");
+            int tok = atoi(token);
+            if (tok == numero_vol){
+                for(int i=0;i<11;i++){
+                    token= strtok(NULL,",");
+                }
+                printf("%s",token);
+                int j=0;
+                while (token != NULL){
+                    switch (j){
+                        case 0 : strcpy(tab[indice].nom, token); j++; token = strtok(NULL, ",");  break;
+                        case 1 : strcpy(tab[indice].prenom, token);j++;token = strtok(NULL, ",");   break;
+                        case 2 : strcpy(tab[indice].date_naissance, token); j++; token = strtok(NULL, ",");  break;
+                        case 3 : strcpy(tab[indice].numero_siege, token);j++;token = strtok(NULL, ";"); break;
+                        case 4 : tab[indice].prix_billet = atoi(token);j=0;token = strtok(NULL, ",");indice++;break;
+                        default : printf("Probleme"); break;
+
+                    }
+                }
+            }
+        }
+    }
 
    // printf("fin\n");
     // printf("%d",tab[indice-1].prix_billet);
@@ -667,8 +835,6 @@ void afficherPassagersSalleEmbarquement(){
    // printf("%s",tab[0].nom);
    // printf("%d",indice -1);
     // affichage2(tab,indice);
-
-
    // printf("-------------------------------------");
     /*
     char *chainee = tab[indice-1].prix_billet - 1;
@@ -676,14 +842,13 @@ void afficherPassagersSalleEmbarquement(){
     printf("%s\n",chainee);
     printf("%s",tab[indice-1].prix_billet);
     */
-
     tri_selection2(tab, indice);
     affichage2(tab,indice);
-    return;
-
-
-
 }
+
+
+
+
 
 
 
