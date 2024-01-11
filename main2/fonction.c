@@ -94,13 +94,15 @@ void affichage_general(){
     long val;
 
     do {
+        printf("\033[1;34m"); // Texte en bleu
         printf("Projet GESTION'AIR - L'heure actuelle est : %02d:%02d\n\n", heureActuelle.tm_hour, heureActuelle.tm_min );
-        printf("1. Affichage des vols de la journee \n"
-               "2. Rechecher votre vol\n"
-               "3. Afficher la liste des passagers d'un vol selon l'ordre d'embarquement\n"
-               "4. Reprogrammer un vol\n"
-               "5. Fermer le programme\n\n"
-               "Veuillez selectionner une option avec le numero correspond: ");
+        printf("\033[0m"); // R�tablir la couleur par d�faut
+        printf("1. Affichage des vols de la journee\n"
+                "2. Recherche de votre vol\n"
+                "3. Afficher la liste des passagers d'un vol selon l'ordre d'embarquement\n"
+                "4. Reprogrammer un vol\n"
+                "5. Fermer le programme\n\n"
+                "Veuillez selectionner une option avec le numero correspondant : ");
         fgets(choix, sizeof(choix), stdin);
         choix[strlen(choix)-1] = '\0';
         char *res = choix;
@@ -141,8 +143,10 @@ void choix_recherche_vol(struct Vol tab[], int taille) {
 
     do {
         ok = 0;
+        printf("\033[1;34m"); // Texte en bleu
         printf("\nGESTION'AIR - Recherche vol  \n\n");
-        printf("1. Rechercher votre vol avec le nom de votre companie \n"
+        printf("\033[0m"); // R�tablir la couleur par d�faut
+        printf("1. Rechercher votre vol avec le nom de votre compagnie \n"
                "2. Rechercher votre vol avec votre destination \n"
                "3. Rechercher votre vol avec votre heure de decollage\n"
                "4. Fermer le programme\n\n"
@@ -184,21 +188,28 @@ void rechercherVolCompagnie(struct Vol vols[], int taille) {
     compagnieRecherchee[strcspn(compagnieRecherchee, "\n")] = 0;
 
     int trouve = 0;
-    printf("\n| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
+            printf("\n\033[1;36m"); // Titre en cyan
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| Numero | Compagnie       | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol           |\n");
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("\033[0m"); // R�tablir la couleur par d�faut
     for (int i = 0; i < taille; i++) {
         if (strcmp(vols[i].compagnie, compagnieRecherchee) == 0) {
-            printf("\n%s - %s - %s - %s - %s - %s - %s - %s - %s - %d - %s\n\n",
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| %-6s | %-15s | %-11s | %-8s | %-8s | %-6s | %-8s | %-8s | %-6s | %-9d | %-17s |\n",
                    vols[i].numero_vol, vols[i].compagnie, vols[i].destination,
                    vols[i].numero_comptoir, vols[i].heure_debut_enregistrement,
                    vols[i].heure_fin_enregistrement, vols[i].salle_embarquement,
                    vols[i].heure_debut_embarquement, vols[i].heure_fin_embarquement,
                    vols[i].heure_decollage, vols[i].etat);
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+
             trouve = 1;
         }
     }
 
     if (!trouve) {
-        printf("Aucun vol trouve pour la compagnie '%s'.\n", compagnieRecherchee);
+        printf("\nAucun vol trouve pour la compagnie '%s'.\n", compagnieRecherchee);
     }
 }
 
@@ -210,14 +221,22 @@ void rechercherVolDestination(struct Vol vols[], int taille) {
     destinationRecherchee[strcspn(destinationRecherchee, "\n")] = 0;
 
     int trouve = 0;
+            printf("\n\033[1;36m"); // Titre en cyan
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| Numero | Compagnie       | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol           |\n");
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("\033[0m"); // R�tablir la couleur par d�faut
     for (int i = 0; i < taille; i++) {
         if (strstr(vols[i].destination, destinationRecherchee) != NULL) {
-            printf("\n%s - %s - %s - %s - %s - %s - %s - %s - %s - %d - %s\n\n",
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| %-6s | %-15s | %-11s | %-8s | %-8s | %-6s | %-8s | %-8s | %-6s | %-9d | %-17s |\n",
                    vols[i].numero_vol, vols[i].compagnie, vols[i].destination,
                    vols[i].numero_comptoir, vols[i].heure_debut_enregistrement,
                    vols[i].heure_fin_enregistrement, vols[i].salle_embarquement,
                    vols[i].heure_debut_embarquement, vols[i].heure_fin_embarquement,
                    vols[i].heure_decollage, vols[i].etat);
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+
             trouve = 1;
         }
     }
@@ -238,14 +257,22 @@ void rechercherVolHorraire(struct Vol vols[], int taille){
     int horraire = atoi(VolHorraire);
 
     int trouve = 0;
+            printf("\n\033[1;36m"); // Titre en cyan
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| Numero | Compagnie       | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol           |\n");
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("\033[0m"); // R�tablir la couleur par d�faut
     for (int i = 0; i < taille; i++) {
         if (vols[i].heure_decollage == horraire) {
-            printf("\n%s - %s - %s - %s - %s - %s - %s - %s - %s - %d - %s\n\n",
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| %-6s | %-15s | %-11s | %-8s | %-8s | %-6s | %-8s | %-8s | %-6s | %-9d | %-17s |\n",
                    vols[i].numero_vol, vols[i].compagnie, vols[i].destination,
                    vols[i].numero_comptoir, vols[i].heure_debut_enregistrement,
                    vols[i].heure_fin_enregistrement, vols[i].salle_embarquement,
                    vols[i].heure_debut_embarquement, vols[i].heure_fin_embarquement,
                    vols[i].heure_decollage, vols[i].etat);
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+
             trouve = 1;
         }
     }
@@ -281,24 +308,31 @@ void tri_selection_croissante(struct Vol tab[], int taille) {
 
 
 void affiche_ligne(struct Vol vol){
-    printf("\n%s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %s\n",
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+            printf("| %-6s | %-15s | %-11s | %-8s | %-8s | %-6s | %-8s | %-8s | %-6s | %-9d | %-17s |\n",
            vol.numero_vol, vol.compagnie, vol.destination, vol.numero_comptoir,
            vol.heure_debut_enregistrement, vol.heure_fin_enregistrement,
            vol.salle_embarquement, vol.heure_debut_embarquement,
            vol.heure_fin_embarquement, vol.heure_decollage, vol.etat);
+            printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
 
 
 }
 
+
 void affichage(int taille, struct Vol vol[], int heure){
+    printf("\n\033[1;36m"); // Titre en cyan
+    printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("| Numero | Compagnie       | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol           |\n");
+    printf(" --------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("\033[0m"); // R�tablir la couleur par d�faut
+
     for (int j = 1; j < taille; j++) {
         if (vol[j].heure_decollage >= heure && vol[j].heure_decollage <= (heure + 300)){
             affiche_ligne(vol[j]);
         }
     }
-
 }
-
 void affichage_vol(struct Vol tab[], int taille) {
     char option[TAILLE];
     char choix[100];
@@ -308,8 +342,8 @@ void affichage_vol(struct Vol tab[], int taille) {
 
     do {
         printf("\n1. Afficher les vols avec l'heure actuelle \n"
-               "2. Saisir l'heure manuellement\n\n"
-               "Veuillez selectionner une option avec le numero correspond: ");
+               "2. Saisir l'heure manuellement\n\n");
+        printf("Veuillez selectionner une option avec le numero correspondant: ");
         fgets(option, sizeof(option), stdin);
         option[strcspn(option, "\n")] = 0;
         int option_val = atoi(option);
@@ -317,7 +351,6 @@ void affichage_vol(struct Vol tab[], int taille) {
         switch (option_val) {
             case 1:
                 heureFormattee = HeureFormattee();
-                printf("\n| Numero | Companie | Destination | Comptoir | debutEnr | finEnr | SalleEmb | debutEmb | finEmb | Decollage | EtatVol |\n");
                 tri_selection_croissante(tab, taille);
                 heureFormattee = heureFormattee - 10;
                 if (heureFormattee % 100 >=  60){
@@ -344,11 +377,12 @@ void affichage_vol(struct Vol tab[], int taille) {
                 affichage(taille, tab, option_m);
                 ok = 1;
                 break;
+
             case 3:
                 affichage_general();
                 break;
             default:
-                printf("Erreur : Option invalide. Veuillez sélectionner une option valide.\n");
+                printf("Erreur : Option invalide. Veuillez selectionner une option valide.\n");
         }
     } while (!ok);
 }
@@ -427,7 +461,10 @@ void reprogrammation_vol(struct Vol tab1[], int taille) {
         indice_vol++;
     }
     int vol_suivant;
-    printf("\n------ Reprogramation du vol selectionne [%d] ---------\n",numero__vol);
+
+    printf("\033[1;32m"); // Texte en vert
+    printf("\n|----------------------------------------------- Reprogramation du vol selectionne [%d] ------------------------------------------------|\n",numero__vol);
+    printf("\033[0m"); // R�tablir la couleur par d�faut
    // printf("Depart%d\n",(heure_min ) % 60 + ((heure_min) / 60) * 100);
    // printf("%d\n",tab1[indice_vol].heure_decollage);
 
@@ -476,14 +513,16 @@ int calculerage(const char *date_naissance) {
 
 void affichage2(struct passager tab[], int taille) {
     for (int i = 0; i < taille; i++) {
-        printf("\nPassager %d :\n", i + 1);
+        printf("\n");
+        printf("\033[0;32m"); // couleur verte
+        printf("\nPassager %d \n", i + 1);
+        printf("\033[0m");
         printf("Nom : %s\n", tab[i].nom);
         printf("Prenom : %s\n", tab[i].prenom);
         printf("Date de naissance : %s\n", tab[i].date_naissance);
         printf("Age : %d\n", calculerage(tab[i].date_naissance));
         printf("Numero de sige : %s\n", tab[i].numero_siege);
         printf("Prix du billet : %d\n", tab[i].prix_billet);
-        printf("\n");
     }
 }
 
@@ -504,16 +543,16 @@ void tri_selection2(struct passager tab[], int taille){
             if ((age_j < 12 && age_mini < 12) || (age_j >= 12&& age_mini >= 12)){
                 if (tab[j].prix_billet > tab[indice_mini].prix_billet){
                     indice_mini= j;
-                    printf("--------Prix billet\n");
+                   // printf("--------Prix billet\n");
 
                 } else if(tab[j].prix_billet == tab[indice_mini].prix_billet && strcmp(tab[j].nom, tab[indice_mini].nom) < 0){
                     indice_mini = j;
-                    printf("---------Prix egal");
+                    //printf("---------Prix egal");
                 }
             } else{
                 if (age_j < 12 ){
                     indice_mini= j;
-                    printf("--------------Age de j < 12");
+                    //printf("--------------Age de j < 12");
                 }
 
 
@@ -528,19 +567,6 @@ void tri_selection2(struct passager tab[], int taille){
 
 
 void afficherPassagersSalleEmbarquement(){
-
-    struct passager *vol_array = (struct passager *)malloc(100 * sizeof(struct passager));
-
-
-    if (vol_array == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        return ;
-    }
-
-
-
-
-
     FILE* fp = fopen(fichierCSV, "r");
 
     char numero_vol[TAILLE];
@@ -548,11 +574,10 @@ void afficherPassagersSalleEmbarquement(){
 
     fgets(numero_vol, TAILLE, stdin);
     numero_vol[strcspn(numero_vol, "\n")] = 0;
-
-    int numero__vol = atoi(numero_vol);
+   int numero__vol = atoi(numero_vol);
 
     int indice = 0;
-    struct passager tab[100];
+    struct passager tab[50];
 
     if (fp != NULL){
        // printf("feur");
@@ -612,6 +637,7 @@ void afficherPassagersSalleEmbarquement(){
 
 
 }
+
 
 
 
