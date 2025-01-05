@@ -2,30 +2,31 @@
 
 ## Presentation 
 
-Le projet vise à créer une application robuste et fonctionnelle qui offre plusieurs fonctionnalités clés pour optimiser la gestion des vols au départ de l'aéroport Grenoble Alpes Isère.
+The project aims to create a robust and functional application that offers several key features to optimize the management of flights departing from Grenoble Alpes Isère Airport.
 
-Fonctionnalités Principales :
+Main Features:
 
-- [ ] Affichage des Informations sur les Vols
+- [ ] Display Flight Information
 
-- [ ] Recherche de Vols 
+- [ ] Flight Search 
 
-- [ ] Affichage de la Liste des Passagers
+- [ ] Display Passengers List
 
-- [ ] Gestion des Retards et Annulations
+- [ ] Management of Delays and Cancellations
 
-- [ ] Maximisation de l'Utilisation de la Piste
+- [ ] Maximization of Runway Usage
+
 
 
 ## Installation
 
-Pour compiler le programme `main.c` vous devez placer les fichiers du programme dans un dossier, puis accéder à votre terminal et vous rendre dans le répertoire source de tous les programmes. Ensuite, exécutez la commande suivante :
+To compile the program `main.c`, you need to place the program files in a folder, then access your terminal and navigate to the source directory of all the programs. Then, run the following command:
 
 ```bash
 gcc main.c fonction.c -o sae
 ```
 
-Pour exécuter le programme, utilisez la commande suivante :
+To run the program, use the following command:
 
 ```bash
 ./sae
